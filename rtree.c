@@ -17,4 +17,5 @@ RTREE createRTree()
     for(int i=0;i<MAX_ENTRIES;i++){
         r->root->children[i]=0;
     }
+    return r;
 }
