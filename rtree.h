@@ -30,5 +30,5 @@ struct mbr {
 };
 
 /* DECLARE ALL THE FUNCTION DEFINITIONS HERE */
-
+RTREE createRTree();
 #endif
