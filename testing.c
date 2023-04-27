@@ -3,166 +3,167 @@
 
 int main() {
 
-    RTREE rtree = (RTREE) malloc(sizeof(struct rtree));
-    rtree->height = 0;
+    Rtree* rtree = (Rtree*) malloc(sizeof(Rtree));
 
-    rtree->root = (NODE) malloc(sizeof(struct node));
-    rtree->height++;
+    rtree->root = (Node*) malloc(sizeof(Node));
     rtree->root->count = 0;
 
-
-    rtree->root->mbrs[0].topRight.x = 100;
-    rtree->root->mbrs[0].topRight.y = 100;
-    rtree->root->mbrs[0].bottomLeft.x = 75;
-    rtree->root->mbrs[0].bottomLeft.y = 75;
+    rtree->root->elements = (Node_ele*) malloc(MAX_ENTRIES*sizeof(Node_ele));
+    rtree->root->elements[0].mbr.topRight.x = 100;
+    rtree->root->elements[0].mbr.topRight.y = 100;
+    rtree->root->elements[0].mbr.bottomLeft.x = 75;
+    rtree->root->elements[0].mbr.bottomLeft.y = 75;
     rtree->root->count++;
 
-
-    rtree->root->mbrs[1].topRight.x = 75;
-    rtree->root->mbrs[1].topRight.y = 75;
-    rtree->root->mbrs[1].bottomLeft.x = 50;
-    rtree->root->mbrs[1].bottomLeft.y = 50;
+    rtree->root->elements[1].mbr.topRight.x = 75;
+    rtree->root->elements[1].mbr.topRight.y = 75;
+    rtree->root->elements[1].mbr.bottomLeft.x = 50;
+    rtree->root->elements[1].mbr.bottomLeft.y = 50;
     rtree->root->count++;
 
-    rtree->root->mbrs[2].topRight.x = 50;
-    rtree->root->mbrs[2].topRight.y = 50;
-    rtree->root->mbrs[2].bottomLeft.x = 25;
-    rtree->root->mbrs[2].bottomLeft.y = 25;
+    rtree->root->elements[2].mbr.topRight.x = 50;
+    rtree->root->elements[2].mbr.topRight.y = 50;
+    rtree->root->elements[2].mbr.bottomLeft.x = 25;
+    rtree->root->elements[2].mbr.bottomLeft.y = 25;
     rtree->root->count++;
     
-    rtree->root->mbrs[3].topRight.x = 25;
-    rtree->root->mbrs[3].topRight.y = 25;
-    rtree->root->mbrs[3].bottomLeft.x = 0;
-    rtree->root->mbrs[3].bottomLeft.y = 0;
+    rtree->root->elements[3].mbr.topRight.x = 25;
+    rtree->root->elements[3].mbr.topRight.y = 25;
+    rtree->root->elements[3].mbr.bottomLeft.x = 0;
+    rtree->root->elements[3].mbr.bottomLeft.y = 0;
     rtree->root->count++;
 
-    NODE temp;
+    Node* temp;
 
     /* -----------------------------------------CHILD 1---------------------------------------- */
 
-    rtree->root->children[0] = (NODE) malloc(sizeof(struct node));
-    temp = rtree->root->children[0];
+    rtree->root->elements[0].child = (Node*) malloc(sizeof(Node));
+    temp = rtree->root->elements[0].child;
     temp->count = 0;
-    temp->mbrs[0].topRight.x = 95;
-    temp->mbrs[0].topRight.y = 95;
-    temp->mbrs[0].bottomLeft.x = 75;
-    temp->mbrs[0].bottomLeft.y = 75;
+    temp->elements = (Node_ele*) malloc(MAX_ENTRIES*sizeof(Node_ele));
+    temp->elements[0].mbr.topRight.x = 95;
+    temp->elements[0].mbr.topRight.y = 95;
+    temp->elements[0].mbr.bottomLeft.x = 75;
+    temp->elements[0].mbr.bottomLeft.y = 75;
     temp->count++;
 
-    rtree->root->children[0] = (NODE) malloc(sizeof(struct node));
-    temp->mbrs[1].topRight.x = 90;
-    temp->mbrs[1].topRight.y = 90;
-    temp->mbrs[1].bottomLeft.x = 75;
-    temp->mbrs[1].bottomLeft.y = 75;
+    rtree->root->elements[0].child = (Node*) malloc(sizeof(Node));
+    temp->elements[1].mbr.topRight.x = 90;
+    temp->elements[1].mbr.topRight.y = 90;
+    temp->elements[1].mbr.bottomLeft.x = 75;
+    temp->elements[1].mbr.bottomLeft.y = 75;
     temp->count++;
 
-    rtree->root->children[0] = (NODE) malloc(sizeof(struct node));
-    temp->mbrs[2].topRight.x = 85;
-    temp->mbrs[2].topRight.y = 85;
-    temp->mbrs[2].bottomLeft.x = 75;
-    temp->mbrs[2].bottomLeft.y = 75;
+    rtree->root->elements[0].child = (Node*) malloc(sizeof(Node));
+    temp->elements[2].mbr.topRight.x = 85;
+    temp->elements[2].mbr.topRight.y = 85;
+    temp->elements[2].mbr.bottomLeft.x = 75;
+    temp->elements[2].mbr.bottomLeft.y = 75;
     temp->count++;
 
-    rtree->root->children[0] = (NODE) malloc(sizeof(struct node));
-    temp->mbrs[3].topRight.x = 80;
-    temp->mbrs[3].topRight.y = 80;
-    temp->mbrs[3].bottomLeft.x = 75;
-    temp->mbrs[3].bottomLeft.y = 75;
+    rtree->root->elements[0].child = (Node*) malloc(sizeof(Node));
+    temp->elements[3].mbr.topRight.x = 80;
+    temp->elements[3].mbr.topRight.y = 80;
+    temp->elements[3].mbr.bottomLeft.x = 75;
+    temp->elements[3].mbr.bottomLeft.y = 75;
     temp->count++;
 
     /* -----------------------------------------CHILD 2---------------------------------------- */
 
-    rtree->root->children[1] = (NODE) malloc(sizeof(struct node));
-    temp = rtree->root->children[0];
+    rtree->root->elements[1].child = (Node*) malloc(sizeof(Node));
+    temp = rtree->root->elements[1].child;
     temp->count = 0;
-    temp->mbrs[0].topRight.x = 70;
-    temp->mbrs[0].topRight.y = 70;
-    temp->mbrs[0].bottomLeft.x = 50;
-    temp->mbrs[0].bottomLeft.y = 50;
+    temp->elements = (Node_ele*) malloc(MAX_ENTRIES*sizeof(Node_ele));
+    temp->elements[0].mbr.topRight.x = 70;
+    temp->elements[0].mbr.topRight.y = 70;
+    temp->elements[0].mbr.bottomLeft.x = 50;
+    temp->elements[0].mbr.bottomLeft.y = 50;
     temp->count++;
 
-    rtree->root->children[1] = (NODE) malloc(sizeof(struct node));
-    temp->mbrs[1].topRight.x = 65;
-    temp->mbrs[1].topRight.y = 65;
-    temp->mbrs[1].bottomLeft.x = 50;
-    temp->mbrs[1].bottomLeft.y = 50;
+    rtree->root->elements[1].child = (Node*) malloc(sizeof(Node));
+    temp->elements[1].mbr.topRight.x = 65;
+    temp->elements[1].mbr.topRight.y = 65;
+    temp->elements[1].mbr.bottomLeft.x = 50;
+    temp->elements[1].mbr.bottomLeft.y = 50;
     temp->count++;
 
-    rtree->root->children[1] = (NODE) malloc(sizeof(struct node));
-    temp->mbrs[2].topRight.x = 60;
-    temp->mbrs[2].topRight.y = 60;
-    temp->mbrs[2].bottomLeft.x = 50;
-    temp->mbrs[2].bottomLeft.y = 50;
+    rtree->root->elements[1].child = (Node*) malloc(sizeof(Node));
+    temp->elements[2].mbr.topRight.x = 60;
+    temp->elements[2].mbr.topRight.y = 60;
+    temp->elements[2].mbr.bottomLeft.x = 50;
+    temp->elements[2].mbr.bottomLeft.y = 50;
     temp->count++;
 
-    rtree->root->children[1] = (NODE) malloc(sizeof(struct node));
-    temp->mbrs[3].topRight.x = 55;
-    temp->mbrs[3].topRight.y = 55;
-    temp->mbrs[3].bottomLeft.x = 50;
-    temp->mbrs[3].bottomLeft.y = 50;
+    rtree->root->elements[1].child = (Node*) malloc(sizeof(Node));
+    temp->elements[3].mbr.topRight.x = 55;
+    temp->elements[3].mbr.topRight.y = 55;
+    temp->elements[3].mbr.bottomLeft.x = 50;
+    temp->elements[3].mbr.bottomLeft.y = 50;
     temp->count++;
 
     /* -----------------------------------------CHILD 3---------------------------------------- */
 
-    rtree->root->children[2] = (NODE) malloc(sizeof(struct node));
-    temp = rtree->root->children[2];
+    rtree->root->elements[2].child = (Node*) malloc(sizeof(Node));
+    temp = rtree->root->elements[2].child;
     temp->count = 0;
-    temp->mbrs[0].topRight.x = 45;
-    temp->mbrs[0].topRight.y = 45;
-    temp->mbrs[0].bottomLeft.x = 25;
-    temp->mbrs[0].bottomLeft.y = 25;
+    temp->elements = (Node_ele*) malloc(MAX_ENTRIES*sizeof(Node_ele));
+    temp->elements[0].mbr.topRight.x = 45;
+    temp->elements[0].mbr.topRight.y = 45;
+    temp->elements[0].mbr.bottomLeft.x = 25;
+    temp->elements[0].mbr.bottomLeft.y = 25;
     temp->count++;
 
-    rtree->root->children[2] = (NODE) malloc(sizeof(struct node));
-    temp->mbrs[1].topRight.x = 40;
-    temp->mbrs[1].topRight.y = 40;
-    temp->mbrs[1].bottomLeft.x = 25;
-    temp->mbrs[1].bottomLeft.y = 25;
+    rtree->root->elements[2].child = (Node*) malloc(sizeof(Node));
+    temp->elements[1].mbr.topRight.x = 40;
+    temp->elements[1].mbr.topRight.y = 40;
+    temp->elements[1].mbr.bottomLeft.x = 25;
+    temp->elements[1].mbr.bottomLeft.y = 25;
     temp->count++;
 
-    rtree->root->children[2] = (NODE) malloc(sizeof(struct node));
-    temp->mbrs[2].topRight.x = 35;
-    temp->mbrs[2].topRight.y = 35;
-    temp->mbrs[2].bottomLeft.x = 25;
-    temp->mbrs[2].bottomLeft.y = 25;
+    rtree->root->elements[2].child = (Node*) malloc(sizeof(Node));
+    temp->elements[2].mbr.topRight.x = 35;
+    temp->elements[2].mbr.topRight.y = 35;
+    temp->elements[2].mbr.bottomLeft.x = 25;
+    temp->elements[2].mbr.bottomLeft.y = 25;
     temp->count++;
 
-    rtree->root->children[2] = (NODE) malloc(sizeof(struct node));
-    temp->mbrs[3].topRight.x = 30;
-    temp->mbrs[3].topRight.y = 30;
-    temp->mbrs[3].bottomLeft.x = 25;
-    temp->mbrs[3].bottomLeft.y = 25;
+    rtree->root->elements[2].child = (Node*) malloc(sizeof(Node));
+    temp->elements[3].mbr.topRight.x = 30;
+    temp->elements[3].mbr.topRight.y = 30;
+    temp->elements[3].mbr.bottomLeft.x = 25;
+    temp->elements[3].mbr.bottomLeft.y = 25;
     temp->count++;
 
     /* -----------------------------------------CHILD 4---------------------------------------- */
 
-    rtree->root->children[3] = (NODE) malloc(sizeof(struct node));
-    temp = rtree->root->children[3];
+    rtree->root->elements[3].child = (Node*) malloc(sizeof(Node));
+    temp = rtree->root->elements[3].child;
     temp->count = 0;
-    temp->mbrs[0].topRight.x = 20;
-    temp->mbrs[0].topRight.y = 20;
-    temp->mbrs[0].bottomLeft.x = 0;
-    temp->mbrs[0].bottomLeft.y = 0;
+    temp->elements = (Node_ele*) malloc(MAX_ENTRIES*sizeof(Node_ele));
+    temp->elements[0].mbr.topRight.x = 20;
+    temp->elements[0].mbr.topRight.y = 20;
+    temp->elements[0].mbr.bottomLeft.x = 0;
+    temp->elements[0].mbr.bottomLeft.y = 0;
     temp->count++;
 
-    rtree->root->children[0] = (NODE) malloc(sizeof(struct node));
-    temp->mbrs[1].topRight.x = 15;
-    temp->mbrs[1].topRight.y = 15;
-    temp->mbrs[1].bottomLeft.x = 0;
-    temp->mbrs[1].bottomLeft.y = 0;
+    rtree->root->elements[3].child = (Node*) malloc(sizeof(Node));
+    temp->elements[1].mbr.topRight.x = 15;
+    temp->elements[1].mbr.topRight.y = 15;
+    temp->elements[1].mbr.bottomLeft.x = 0;
+    temp->elements[1].mbr.bottomLeft.y = 0;
     temp->count++;
 
-    rtree->root->children[0] = (NODE) malloc(sizeof(struct node));
-    temp->mbrs[2].topRight.x = 10;
-    temp->mbrs[2].topRight.y = 10;
-    temp->mbrs[2].bottomLeft.x = 0;
-    temp->mbrs[2].bottomLeft.y = 0;
+    rtree->root->elements[3].child = (Node*) malloc(sizeof(Node));
+    temp->elements[2].mbr.topRight.x = 10;
+    temp->elements[2].mbr.topRight.y = 10;
+    temp->elements[2].mbr.bottomLeft.x = 0;
+    temp->elements[2].mbr.bottomLeft.y = 0;
     temp->count++;
 
-    rtree->root->children[0] = (NODE) malloc(sizeof(struct node));
-    temp->mbrs[3].topRight.x = 5;
-    temp->mbrs[3].topRight.y = 5;
-    temp->mbrs[3].bottomLeft.x = 0;
-    temp->mbrs[3].bottomLeft.y = 0;
+    rtree->root->elements[3].child = (Node*) malloc(sizeof(Node));
+    temp->elements[3].mbr.topRight.x = 5;
+    temp->elements[3].mbr.topRight.y = 5;
+    temp->elements[3].mbr.bottomLeft.x = 0;
+    temp->elements[3].mbr.bottomLeft.y = 0;
     temp->count++;
 }

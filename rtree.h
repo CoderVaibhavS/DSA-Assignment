@@ -3,14 +3,16 @@
 //The dashes like the one shown above show important demarcations and boundaries to make the code readable
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define MAX_ENTRIES 4
 #define MIN_ENTRIES 2
 
-typedef struct rtree* RTREE;
-typedef struct node* NODE;
-typedef struct point POINT;
-typedef struct mbr MBR;
+typedef struct rtree Rtree;
+typedef struct node Node;
+typedef struct point Point;
+typedef struct rectangle Rect;
+typedef struct node_ele Node_ele;
 
 struct point {
     int x;
@@ -18,33 +20,33 @@ struct point {
 };
 
 // Assuming the coordinates to be integers
-struct mbr {
-    // Min and max coordinates of the rectangle
-    // int x_min;
-    // int x_max;
-    // int y_min;
-    // int y_max;
-    POINT topRight;
-    POINT bottomLeft;
+struct rectangle {
+    Point topRight;
+    Point bottomLeft;
+};
+
+struct node_ele {
+    Rect mbr;
+    Node* child;
 };
 
 struct node {
+    bool is_leaf;
     int count;      // no of entries stored
-    MBR mbrs[MAX_ENTRIES];      // array of MBRs of the keys of the node
-    NODE children[MAX_ENTRIES];     // array of children nodes
+    Node_ele* elements;
 };
+
 struct rtree {
-    NODE root;
-    int height;
+    Node* root;
 };
 
 
 /* DECLARE ALL THE FUNCTION DEFINITIONS HERE */
-RTREE createRTree();
-int CalculateAreaOfMBR(MBR rec);
-MBR chooseSubTree(NODE n);
-int LeafCheck(NODE n);
-NODE descendTree(NODE n);
-MBR ChooseLeaf(NODE r);
+Rtree createRTree();
+int CalculateAreaOfrectangle(Rect rec);
+Rect chooseSubTree(Node* n);
+int LeafCheck(Node* n);
+Node* descendTree(Node* n);
+Rect ChooseLeaf(Node* r);
 
 #endif
