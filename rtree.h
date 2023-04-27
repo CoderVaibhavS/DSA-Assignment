@@ -34,6 +34,7 @@ struct node {
     bool is_leaf;
     int count;      // no of entries stored
     Node_ele* elements;
+    // add parent node if required
 };
 
 struct rtree {
@@ -48,5 +49,7 @@ Rect chooseSubTree(Node* n);
 int LeafCheck(Node* n);
 Node* descendTree(Node* n);
 Rect ChooseLeaf(Node* r);
+
+void pickSeeds(Node_ele* elements);
 
 #endif
