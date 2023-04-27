@@ -8,6 +8,7 @@
 
 typedef struct rtree* RTREE;
 typedef struct node* NODE;
+typedef struct point* POINT;
 typedef struct mbr* MBR;
 
 struct rtree {
@@ -21,13 +22,20 @@ struct node {
     NODE children[MAX_ENTRIES];     // array of children nodes
 };
 
+struct point {
+    int x;
+    int y;
+};
+
 // Assuming the coordinates to be integers
 struct mbr {
     // Min and max coordinates of the rectangle
-    int x_min;
-    int x_max;
-    int y_min;
-    int y_max;
+    // int x_min;
+    // int x_max;
+    // int y_min;
+    // int y_max;
+    POINT topRight;
+    POINT bottomLeft;
 };
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -57,8 +65,8 @@ RTREE createRTree()
 //Choosing which Node to insert new elemnt to function as per research paper
 int CalculateAreaOfMBR(MBR rec)
 {
-    int length=abs(rec->x_max-rec->x_min); //this is length of rectangle
-    int width=abs(rec->y_max-rec->y_min);  // this is width of rectangle
+    int length=abs(rec->topRight->x -rec->bottomLeft->x); //this is length of rectangle
+    int width=abs(rec->topRight->y-rec->bottomLeft->y);  // this is width of rectangle
     int area=(length*width); 
     return area;
 }
@@ -167,6 +175,19 @@ MBR ChooseLeaf(NODE r) //this method is still incomplete, I am yet to finish thi
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 //Creating sub-functions for SplitNode function
 //split node function is only called if the given node is full, which means we need to split this node into two new nodes and the new element needs to be inserted into one of the two new nodes
+//check whatsapp for what i am about to do
+// void CalculateMergedArea
+    
+// void QuadraticSplitNode(NODE n)
+// {
+//     int a1=CalculateAreaOfMBR(n->mbrs[0]);
+//     int a2=CalculateAreaOfMBR(n->mbrs[1]);
+//     int a3=CalculateAreaOfMBR(n->mbrs[2]);
+//     int a4=CalculateAreaOfMBR(n->mbrs[3]);
+
+//     int max_area=0;
+//     for()
+// }
 
 int main() {
     
