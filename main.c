@@ -36,16 +36,17 @@ RTREE createRTree()
     RTREE r=(RTREE)malloc(sizeof(struct rtree));                     // initialising all parts of the firstnode of the R-Tree to 0
     r->height=0;
     r->root = (NODE)malloc(sizeof(struct node));
+    r->root=NULL;
     r->root->count=0;
-    for(int i=0;i<MAX_ENTRIES;i++){
-        r->root->mbrs[i]->x_max=0;
-        r->root->mbrs[i]->x_min=0;
-        r->root->mbrs[i]->y_max=0;
-        r->root->mbrs[i]->y_min=0;
-    }
-    for(int i=0;i<MAX_ENTRIES;i++){
-        r->root->children[i]=NULL;
-    }
+    // for(int i=0;i<MAX_ENTRIES;i++){
+    //     r->root->mbrs[i]->x_max=0;
+    //     r->root->mbrs[i]->x_min=0;
+    //     r->root->mbrs[i]->y_max=0;
+    //     r->root->mbrs[i]->y_min=0;
+    // }
+    // for(int i=0;i<MAX_ENTRIES;i++){
+    //     r->root->children[i]=NULL;
+    // }
     return r;
 }
 
@@ -65,9 +66,7 @@ int CalculateAreaOfMBR(MBR rec)
 
 MBR chooseSubTree(NODE n)
 {
-    int status=LeafCheck(n);
-    if(status==0)
-    {
+    
         int area1=CalculateAreaOfMBR(n->mbrs[0]);
         int area2=CalculateAreaOfMBR(n->mbrs[1]);
         int area3=CalculateAreaOfMBR(n->mbrs[2]);
@@ -97,8 +96,7 @@ MBR chooseSubTree(NODE n)
 
                 return n->mbrs[i];        
         }
-    }
-    else return n; //this else part is not handled properly
+     //this else part is not handled properly
 }
 
 
@@ -112,7 +110,7 @@ int LeafCheck(NODE n)
     else return 0;
 }
 
-NODE descendTree(NODE n)
+void descendTree(NODE n)
 {
     int status=LeafCheck(n);
     if(status==0)
@@ -121,10 +119,10 @@ NODE descendTree(NODE n)
         int status2=LeafCheck(n->children[1]);
         int status3=LeafCheck(n->children[2]);
         int status4=LeafCheck(n->children[3]);
-        if(status1==1) {return n->children[0];}
-        else if(status2==1){return n->children[1];}
-        else if(status3==1){return n->children[2];}
-        else if(status4==1){return n->children[3];}
+        if(status1==1) {n= n->children[0];}
+        else if(status2==1){n= n->children[1];}
+        else if(status3==1){n= n->children[2];}
+        else if(status4==1){n= n->children[3];}
         else{
             descendTree(n->children[0]);
             descendTree(n->children[1]);
@@ -133,7 +131,7 @@ NODE descendTree(NODE n)
           
         }
     }
-    else return n; //this else part appears to not be handled properly but the program will definitely execute for one of the if statments because we are running multiple status checks using LeafCheck inside and outside this function
+     //this else part appears to not be handled properly but the program will definitely execute for one of the if statments because we are running multiple status checks using LeafCheck inside and outside this function
 }
 MBR ChooseLeaf(RTREE r) //this method is still incomplete, I am yet to finish this
 {
