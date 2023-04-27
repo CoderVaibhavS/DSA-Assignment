@@ -1,12 +1,12 @@
 #include <stdlib.h>
 #include "rtree.h"
 
-Rect create_rectangle(int x, int y){
+Rect create_rectangle(int xmin, int ymin, int xmax,int ymax){
     Rect *Rectangle = (Rect *)malloc(sizeof(Rect));
-    Rectangle->bottomLeft.x = 40;
-    Rectangle->bottomLeft.y = 40;
-    Rectangle->topRight.x = 65;
-    Rectangle->topRight.y = 65;
+    Rectangle->bottomLeft.x = xmin;
+    Rectangle->bottomLeft.y = ymin;
+    Rectangle->topRight.x = xmax;
+    Rectangle->topRight.y = ymax;
     return *Rectangle;
 }
 bool is_overlap(Rect r, Rect mbr)   //checks for an overlap between the rectangle and the MBR in a node
@@ -213,7 +213,7 @@ int main() {
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-    Rect search_rect = create_rectangle(40,65); // creating rectangle for search
+    Rect search_rect = create_rectangle(40,40,65,65); // creating rectangle for search
 
     printf("\nbottomleft and topright coords of search rectangle : (%d,%d) (%d,%d) \n", search_rect.bottomLeft.x, search_rect.bottomLeft.y, search_rect.topRight.x, search_rect.topRight.y); //displaying datapoints of search rectangle
 
