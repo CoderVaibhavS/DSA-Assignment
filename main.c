@@ -1,3 +1,5 @@
+//------------------------------------------------------------------------------------------------------------------------
+//The dashes like the one shown above show important demarcations and boundaries to make the code readable
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -28,7 +30,7 @@ struct mbr {
     int y_max;
 };
 
-
+//------------------------------------------------------------------------------------------------------------------------------------------
 //creating R Tree function
 RTREE createRTree()
 {
@@ -50,14 +52,14 @@ RTREE createRTree()
     return r;
 }
 
-
+ //--------------------------------------------------------------------------------------------------------------------------------------
 //Before creating the search algorithm we will first create the methods required for insertion
 //Choosing which Node to insert new elemnt to function as per research paper
 int CalculateAreaOfMBR(MBR rec)
 {
-    int length=abs(rec->x_max-rec->x_min); //this is length of diagonal and not rectangle
-    int width=abs(rec->y_max-rec->y_min);  // this is width of diagonal and not rectangle
-    int area=(length*width)/2; // thats why there is /2
+    int length=abs(rec->x_max-rec->x_min); //this is length of rectangle
+    int width=abs(rec->y_max-rec->y_min);  // this is width of rectangle
+    int area=(length*width); 
     return area;
 }
 
@@ -125,7 +127,7 @@ NODE descendTree(NODE n)
         return n->children[2];
     } else if (status4 == 1) {
         return n->children[3];
-    } else {
+    } else { //else to recrusively check if its leaf node and if its not descend down the tree
         NODE result = NULL;
         result = descendTree(n->children[0]);
         if (result != NULL) {
@@ -159,11 +161,13 @@ MBR ChooseLeaf(NODE r) //this method is still incomplete, I am yet to finish thi
     else
     {
         
-        ChooseLeaf(descendTree(r));
+        ChooseLeaf(descendTree(r)); //recursively calling ChooseLeaf to call CL2,CL3 and CL4
     }
-    
- 
 }
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+//Creating sub-functions for SplitNode function
+//split node function is only called if the given node is full, which means we need to split this node into two new nodes and the new element needs to be inserted into one of the two new nodes
+
 int main() {
     
 }
