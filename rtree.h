@@ -9,19 +9,8 @@
 
 typedef struct rtree* RTREE;
 typedef struct node* NODE;
-typedef struct point* POINT;
-typedef struct mbr* MBR;
-
-struct rtree {
-    NODE root;
-    int height;
-};
-
-struct node {
-    int count;      // no of entries stored
-    MBR mbrs[MAX_ENTRIES];      // array of MBRs of the keys of the node
-    NODE children[MAX_ENTRIES];     // array of children nodes
-};
+typedef struct point POINT;
+typedef struct mbr MBR;
 
 struct point {
     int x;
@@ -38,6 +27,17 @@ struct mbr {
     POINT topRight;
     POINT bottomLeft;
 };
+
+struct node {
+    int count;      // no of entries stored
+    MBR mbrs[MAX_ENTRIES];      // array of MBRs of the keys of the node
+    NODE children[MAX_ENTRIES];     // array of children nodes
+};
+struct rtree {
+    NODE root;
+    int height;
+};
+
 
 /* DECLARE ALL THE FUNCTION DEFINITIONS HERE */
 RTREE createRTree();

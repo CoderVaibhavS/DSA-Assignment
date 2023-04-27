@@ -5,8 +5,8 @@
 //Choosing which Node to insert new elemnt to function as per research paper
 int CalculateAreaOfMBR(MBR rec)
 {
-    int length=abs(rec->topRight->x -rec->bottomLeft->x); //this is length of rectangle
-    int width=abs(rec->topRight->y-rec->bottomLeft->y);  // this is width of rectangle
+    int length=abs(rec.topRight.x -rec.bottomLeft.x); //this is length of rectangle
+    int width=abs(rec.topRight.y-rec.bottomLeft.y);  // this is width of rectangle
     int area=(length*width); 
     return area;
 }
