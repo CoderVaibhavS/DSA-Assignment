@@ -110,40 +110,56 @@ int LeafCheck(NODE n)
     else return 0;
 }
 
-void descendTree(NODE n)
-{
-    int status=LeafCheck(n);
-    if(status==0)
-    {
-        int status1=LeafCheck(n->children[0]);
-        int status2=LeafCheck(n->children[1]);
-        int status3=LeafCheck(n->children[2]);
-        int status4=LeafCheck(n->children[3]);
-        if(status1==1) {n= n->children[0];}
-        else if(status2==1){n= n->children[1];}
-        else if(status3==1){n= n->children[2];}
-        else if(status4==1){n= n->children[3];}
-        else{
-            descendTree(n->children[0]);
-            descendTree(n->children[1]);
-            descendTree(n->children[2]);
-            descendTree(n->children[3]);
-          
+NODE descendTree(NODE n)
+{     
+    int status1 = LeafCheck(n->children[0]);
+    int status2 = LeafCheck(n->children[1]);
+    int status3 = LeafCheck(n->children[2]);
+    int status4 = LeafCheck(n->children[3]);
+
+    if (status1 == 1) {
+        return n->children[0];
+    } else if (status2 == 1) {
+        return n->children[1];
+    } else if (status3 == 1) {
+        return n->children[2];
+    } else if (status4 == 1) {
+        return n->children[3];
+    } else {
+        NODE result = NULL;
+        result = descendTree(n->children[0]);
+        if (result != NULL) {
+            return result;
         }
+
+        result = descendTree(n->children[1]);
+        if (result != NULL) {
+            return result;
+        }
+
+        result = descendTree(n->children[2]);
+        if (result != NULL) {
+            return result;
+        }
+
+        result = descendTree(n->children[3]);
+        return result;
     }
-     //this else part appears to not be handled properly but the program will definitely execute for one of the if statments because we are running multiple status checks using LeafCheck inside and outside this function
 }
-MBR ChooseLeaf(RTREE r) //this method is still incomplete, I am yet to finish this
+
+//NOTE while implementing ChooseLeaf in the main function we will feed it the root node of the tree
+MBR ChooseLeaf(NODE r) //this method is still incomplete, I am yet to finish this
 {
     //Start at root node
-    int status=LeafCheck(r->root);
+    int status=LeafCheck(r);
     if(status==1)
     {
-        return r->root->mbrs[0];
+        return r->mbrs[0];
     }
     else
     {
-        descendTree(r->root);
+        
+        ChooseLeaf(descendTree(r));
     }
     
  
