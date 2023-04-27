@@ -50,6 +50,6 @@ int LeafCheck(Node* n);
 Node* descendTree(Node* n);
 Rect ChooseLeaf(Node* r);
 
-void pickSeeds(Node_ele* elements);
+void pickSeeds(Node* node, Rect* r1, Rect* r2);
 
 #endif

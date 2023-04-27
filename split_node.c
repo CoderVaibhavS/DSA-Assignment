@@ -12,7 +12,7 @@ void pickSeeds(Node* node, Rect* r1, Rect* r2) {
             rect1 = node->elements[i].mbr;
             rect2 = node->elements[j].mbr;
 
-            rect.topRight.x = fmax(rect1.topRight.x, rect2.topRight.x);
+            rect.topRight.x = fmax(rect1.topRight.x, rect2.topRight.x); //we are doing this to find the rectangle of smallest area that encloses rect1 and rect2
             rect.topRight.y = fmax(rect1.topRight.y, rect2.topRight.y);
             rect.bottomLeft.x = fmin(rect1.bottomLeft.x, rect2.bottomLeft.x);
             rect.bottomLeft.y = fmin(rect1.bottomLeft.y, rect2.bottomLeft.y);
@@ -21,7 +21,7 @@ void pickSeeds(Node* node, Rect* r1, Rect* r2) {
             area1 = CalculateAreaOfrectangle(rect1);
             area2 = CalculateAreaOfrectangle(rect2);
 
-            if(max_area < area - area1 - area2) {
+            if(max_area < area - area1 - area2) {   //we are selecting the 2 rectangles which have the maximum aread inbetween them when we bound those two rectangles with a bigger rectangle
                 max_area = area - area1 - area2;
                 *r1 = rect1;
                 *r2 = rect2;

@@ -1,18 +1,20 @@
 #include <stdlib.h>
 #include "rtree.h"
 
+
 int main() {
 
     Rtree* rtree = (Rtree*) malloc(sizeof(Rtree));
 
     rtree->root = (Node*) malloc(sizeof(Node));
     rtree->root->count = 0;
-
+    
     rtree->root->elements = (Node_ele*) malloc(MAX_ENTRIES*sizeof(Node_ele));
     rtree->root->elements[0].mbr.topRight.x = 100;
     rtree->root->elements[0].mbr.topRight.y = 100;
     rtree->root->elements[0].mbr.bottomLeft.x = 75;
     rtree->root->elements[0].mbr.bottomLeft.y = 75;
+    rtree->root->is_leaf=0;
     rtree->root->count++;
 
     rtree->root->elements[1].mbr.topRight.x = 75;
@@ -45,6 +47,7 @@ int main() {
     temp->elements[0].mbr.topRight.y = 95;
     temp->elements[0].mbr.bottomLeft.x = 75;
     temp->elements[0].mbr.bottomLeft.y = 75;
+    rtree->root->elements[0].child->is_leaf=0;
     temp->count++;
 
     rtree->root->elements[0].child = (Node*) malloc(sizeof(Node));
@@ -78,6 +81,7 @@ int main() {
     temp->elements[0].mbr.topRight.y = 70;
     temp->elements[0].mbr.bottomLeft.x = 50;
     temp->elements[0].mbr.bottomLeft.y = 50;
+    rtree->root->elements[1].child->is_leaf=0;
     temp->count++;
 
     rtree->root->elements[1].child = (Node*) malloc(sizeof(Node));
@@ -111,6 +115,7 @@ int main() {
     temp->elements[0].mbr.topRight.y = 45;
     temp->elements[0].mbr.bottomLeft.x = 25;
     temp->elements[0].mbr.bottomLeft.y = 25;
+    rtree->root->elements[2].child->is_leaf=0;
     temp->count++;
 
     rtree->root->elements[2].child = (Node*) malloc(sizeof(Node));
@@ -144,6 +149,7 @@ int main() {
     temp->elements[0].mbr.topRight.y = 20;
     temp->elements[0].mbr.bottomLeft.x = 0;
     temp->elements[0].mbr.bottomLeft.y = 0;
+    temp->is_leaf=0;
     temp->count++;
 
     rtree->root->elements[3].child = (Node*) malloc(sizeof(Node));
@@ -166,4 +172,6 @@ int main() {
     temp->elements[3].mbr.bottomLeft.x = 0;
     temp->elements[3].mbr.bottomLeft.y = 0;
     temp->count++;
+    int x=ChooseLeaf(rtree->root).bottomLeft.x;
+    printf("%d",&x);
 }
