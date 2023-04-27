@@ -45,7 +45,7 @@ struct rtree {
 /* DECLARE ALL THE FUNCTION DEFINITIONS HERE */
 Rtree createRTree();
 int CalculateAreaOfrectangle(Rect rec);
-Rect chooseSubTree(Node* n);
+Node* chooseSubTree(Node* n);
 int LeafCheck(Node* n);
 Node* descendTree(Node* n);
 Rect ChooseLeaf(Node* r);

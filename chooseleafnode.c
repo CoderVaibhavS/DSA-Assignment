@@ -12,13 +12,14 @@ int CalculateAreaOfMBR(Rect rect)
     return area;
 }
 
-Rect chooseSubTree(Node* n) // read
+Node* chooseSubTree(Node* n) // read
 {
 
     int area1 = CalculateAreaOfMBR(n->elements[0].mbr);
     int area2 = CalculateAreaOfMBR(n->elements[1].mbr);
     int area3 = CalculateAreaOfMBR(n->elements[2].mbr);
     int area4 = CalculateAreaOfMBR(n->elements[3].mbr);
+    Node* child=NULL;
 
     // finding the rectangle with the minimum area
     int min_area = CalculateAreaOfMBR(n->elements[0].mbr); // Assume the first area is the minimum
@@ -42,11 +43,16 @@ Rect chooseSubTree(Node* n) // read
         min_area = area;
     }
 
-    for (int i = 0; i < MAX_ENTRIES && CalculateAreaOfMBR(n->elements[i].mbr) == area; i++)
+    for (int i = 0; i < MAX_ENTRIES; i++)
     {
+        if(CalculateAreaOfMBR(n->elements[i].mbr) == area)
+        {
+            return n->elements[i].child;
 
-        return n->elements[i].mbr;
+         }
     }
+    return child; //code will logically never reach this return statement because of the logic mentioned above...its a line just to prevent syntax/compile time error because a function must terminate with a return statement
+        
     // this else part is not handled properly
 }
 
@@ -121,7 +127,7 @@ Rect ChooseLeaf(Node* n) // this method is still incomplete, I am yet to finish 
     else
     {
 
-        chooseSubTree(ChooseLeaf(descendTree(n))); // recursively calling ChooseLeaf to call CL2,CL3 and CL4
+        ChooseLeaf(descendTree(chooseSubTree(n)));// recursively calling ChooseLeaf to call CL2,CL3 and CL4
     }
 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
