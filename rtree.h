@@ -24,8 +24,8 @@ struct node {
 };
 
 struct point {
-    float x;
-    float y;
+    int x;
+    int y;
 };
 
 // Assuming the coordinates to be integers
@@ -41,4 +41,10 @@ struct mbr {
 
 /* DECLARE ALL THE FUNCTION DEFINITIONS HERE */
 RTREE createRTree();
+int CalculateAreaOfMBR(MBR rec);
+MBR chooseSubTree(NODE n);
+int LeafCheck(NODE n);
+NODE descendTree(NODE n);
+MBR ChooseLeaf(NODE r);
+
 #endif
