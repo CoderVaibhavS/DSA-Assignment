@@ -14,7 +14,7 @@ int CalculateAreaOfMBR(MBR rec)
 
 
 
-MBR chooseSubTree(NODE n)
+MBR chooseSubTree(NODE n) //read
 {
     
         int area1=CalculateAreaOfMBR(n->mbrs[0]);
@@ -109,7 +109,7 @@ MBR ChooseLeaf(NODE r) //this method is still incomplete, I am yet to finish thi
     else
     {
         
-        ChooseLeaf(descendTree(r)); //recursively calling ChooseLeaf to call CL2,CL3 and CL4
+        chooseSubTree(ChooseLeaf(descendTree(r))); //recursively calling ChooseLeaf to call CL2,CL3 and CL4
     }
 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
