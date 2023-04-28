@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "rtree.h"
 
@@ -15,13 +16,12 @@ void traversal(Node* root)
 
 int main()
 {
-    Rtree* rtree = (Rtree*)malloc(sizeof(Rtree));
+    Rtree* rtree = createRtree();
 
-    rtree->root = (Node*)malloc(sizeof(Node));
-    rtree->root->count = 0;
+    rtree->root = createNode(NULL);
     rtree->root->is_leaf = false;
 
-    rtree->root->elements = (Node_ele*)malloc(MAX_ENTRIES * sizeof(Node_ele));
+    rtree->root->elements = (Node_ele**)malloc(MAX_ENTRIES * sizeof(Node_ele*));
     rtree->root->elements[0].mbr.topRight.x = 100;
     rtree->root->elements[0].mbr.topRight.y = 100;
     rtree->root->elements[0].mbr.bottomLeft.x = 75;

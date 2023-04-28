@@ -1,6 +1,13 @@
 #ifndef RTREE_H
 //------------------------------------------------------------------------------------------------------------------------
 
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_ENTRIES 4
+#define MIN_ENTRIES 2
+
 typedef struct rtree Rtree;
 typedef struct node Node;
 typedef struct point Point;
