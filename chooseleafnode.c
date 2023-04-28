@@ -125,19 +125,19 @@ Node* descendTree(Node* n)
 
 // NOTE while implementing ChooseLeaf in the main function we will feed it the
 // root node of the tree
-// Rect ChooseLeaf(
-//     Node* n)  // this method is still incomplete, I am yet to finish this
-// {
-//     // Start at root node
-//     bool status = n->is_leaf;
-//     if (status == 1)
-//     {
-//         return n->elements[0].mbr;
-//     }
-//     else
-//     {
-//         ChooseLeaf(descendTree(chooseSubTree(
-//             n)));  // recursively calling ChooseLeaf to call CL2,CL3 and CL4
-//     }
-// }
-//----------------------------------------------------------------------------------------------------------------------------------------------------
+Node* ChooseLeaf(
+    Node* n)  // this method is still incomplete, I am yet to finish this
+{
+    // Start at root node
+    bool status = n->is_leaf;
+    if (status == 1)
+    {
+        return n;
+    }
+    else
+    {
+        ChooseLeaf(descendTree(chooseSubTree(
+            n)));  // recursively calling ChooseLeaf to call CL2,CL3 and CL4
+    }
+}
+// ----------------------------------------------------------------------------------------------------------------------------------------------------

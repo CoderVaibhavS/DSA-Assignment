@@ -56,7 +56,8 @@ int CalculateOverlapArea(Rect rect1, Rect rect2);
 Node *chooseSubTree(Node *n);
 int LeafCheck(Node *n);
 Node *descendTree(Node *n);
-Node *ChooseLeaf(Rtree *r, Rect r1);
+// Node *ChooseLeaf(Rtree *r, Rect r1);
+Node *ChooseLeaf(Node *n);
 
 void pickSeeds(Node* node, Node* node1, Node* node2);
 void pickNext();
