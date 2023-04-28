@@ -51,18 +51,19 @@ struct rtree
 Node_ele *createNodeEle(Node *container, Point topRight, Point bottomLeft);
 Node *createNode(Node_ele *parent);
 Rtree *createRtree();
-void traversal(Node* root);
+void traversal(Node *root);
 
 int calculateAreaOfRectangle(Rect rec);
-Rect CalculateRecatangleMBR(Node *n);
-int CalculateOverlapArea(Rect rect1, Rect rect2);
-Node *chooseSubTree(Node *n);
-int LeafCheck(Node *n);
-Node *descendTree(Node *n);
-// Node *ChooseLeaf(Rtree *r, Rect r1);
-Node *ChooseLeaf(Node *n);
+// Rect CalculateRecatangleMBR(Node *n);
+// int CalculateOverlapArea(Rect rect1, Rect rect2);
+Node_ele *chooseSubTree(Node *n, Rect r);
+int calcAreaEnlargement(Rect rectCont, Rect rectChild);
+// int LeafCheck(Node *n);
+// Node *descendTree(Node *n);
+Node *ChooseLeaf(Rtree *r, Rect r1);
+// Node *ChooseLeaf(Node *n);
 
-void pickSeeds(Node* node, Node* node1, Node* node2);
+void pickSeeds(Node *node, Node *node1, Node *node2);
 void pickNext();
 
 Rect create_rectangle(int xmin, int ymin, int xmax, int ymax);

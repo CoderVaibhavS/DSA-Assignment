@@ -1,18 +1,19 @@
-#include <stdlib.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include "rtree.h"
 
 int main()
 {
-    Rtree* rtree = createRtree();
-    
+    Rtree *rtree = createRtree();
+
     rtree->root = createNode(NULL);
     rtree->root->is_leaf = false;
 
-    rtree->root->elements = (Node_ele**)malloc(MAX_ENTRIES * sizeof(Node_ele*));
-    for(int i=0; i<MAX_ENTRIES; i++) {
-        rtree->root->elements[i] = (Node_ele *) malloc(sizeof(Node_ele));
+    rtree->root->elements = (Node_ele **)malloc(MAX_ENTRIES * sizeof(Node_ele *));
+    for (int i = 0; i < MAX_ENTRIES; i++)
+    {
+        rtree->root->elements[i] = (Node_ele *)malloc(sizeof(Node_ele));
     }
 
     Point topRight, bottomLeft;
@@ -36,15 +37,16 @@ int main()
     rtree->root->elements[3] = createNodeEle(rtree->root, topRight, bottomLeft);
     rtree->root->count++;
 
-    Node* temp;
+    Node *temp;
 
     /* -----------------------------------------CHILD 1---------------------------------------- */
     rtree->root->elements[0]->child = createNode(rtree->root->elements[0]);
     temp = rtree->root->elements[0]->child;
 
-    temp->elements = (Node_ele**)malloc(MAX_ENTRIES * sizeof(Node_ele*));
-    for(int i=0; i<MAX_ENTRIES; i++) {
-        temp->elements[i] = (Node_ele *) malloc(sizeof(Node_ele));
+    temp->elements = (Node_ele **)malloc(MAX_ENTRIES * sizeof(Node_ele *));
+    for (int i = 0; i < MAX_ENTRIES; i++)
+    {
+        temp->elements[i] = (Node_ele *)malloc(sizeof(Node_ele));
     }
 
     topRight.x = topRight.y = 95;
@@ -72,9 +74,10 @@ int main()
     rtree->root->elements[1]->child = createNode(rtree->root->elements[1]);
     temp = rtree->root->elements[1]->child;
 
-    temp->elements = (Node_ele**)malloc(MAX_ENTRIES * sizeof(Node_ele*));
-    for(int i=0; i<MAX_ENTRIES; i++) {
-        temp->elements[i] = (Node_ele *) malloc(sizeof(Node_ele));
+    temp->elements = (Node_ele **)malloc(MAX_ENTRIES * sizeof(Node_ele *));
+    for (int i = 0; i < MAX_ENTRIES; i++)
+    {
+        temp->elements[i] = (Node_ele *)malloc(sizeof(Node_ele));
     }
 
     topRight.x = topRight.y = 70;
@@ -102,9 +105,10 @@ int main()
     rtree->root->elements[2]->child = createNode(rtree->root->elements[2]);
     temp = rtree->root->elements[2]->child;
 
-    temp->elements = (Node_ele**)malloc(MAX_ENTRIES * sizeof(Node_ele*));
-    for(int i=0; i<MAX_ENTRIES; i++) {
-        temp->elements[i] = (Node_ele *) malloc(sizeof(Node_ele));
+    temp->elements = (Node_ele **)malloc(MAX_ENTRIES * sizeof(Node_ele *));
+    for (int i = 0; i < MAX_ENTRIES; i++)
+    {
+        temp->elements[i] = (Node_ele *)malloc(sizeof(Node_ele));
     }
 
     topRight.x = topRight.y = 45;
@@ -132,9 +136,10 @@ int main()
     rtree->root->elements[3]->child = createNode(rtree->root->elements[3]);
     temp = rtree->root->elements[3]->child;
 
-    temp->elements = (Node_ele**)malloc(MAX_ENTRIES * sizeof(Node_ele*));
-    for(int i=0; i<MAX_ENTRIES; i++) {
-        temp->elements[i] = (Node_ele *) malloc(sizeof(Node_ele));
+    temp->elements = (Node_ele **)malloc(MAX_ENTRIES * sizeof(Node_ele *));
+    for (int i = 0; i < MAX_ENTRIES; i++)
+    {
+        temp->elements[i] = (Node_ele *)malloc(sizeof(Node_ele));
     }
 
     topRight.x = topRight.y = 20;
@@ -157,5 +162,11 @@ int main()
     temp->elements[3] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    traversal(rtree->root);
+    // traversal(rtree->root);
+    Rect r1;
+    r1.bottomLeft.x = 0;
+    r1.bottomLeft.y = 0;
+    r1.topRight.x = 5;
+    r1.topRight.y = 5;
+    ChooseLeaf(rtree, r1);
 }
