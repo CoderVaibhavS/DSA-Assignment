@@ -51,6 +51,7 @@ Node* descendTree(Node* n);
 Rect ChooseLeaf(Node* r);
 
 void pickSeeds(Node* node, Rect* r1, Rect* r2);
+void pickNext();
 
 Rect create_rectangle(int xmin, int ymin, int xmax,int ymax);
 bool is_overlap(Rect r, Rect mbr);

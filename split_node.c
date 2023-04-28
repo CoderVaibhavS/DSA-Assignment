@@ -29,3 +29,7 @@ void pickSeeds(Node* node, Rect* r1, Rect* r2) {
         }
     }
 }
+
+void pickNext() {
+    
+}
