@@ -1,9 +1,10 @@
 #ifndef RTREE_H
 //------------------------------------------------------------------------------------------------------------------------
-// The dashes like the one shown above show important demarcations and boundaries to make the code readable
+// The dashes like the one shown above show important demarcations and
+// boundaries to make the code readable
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 #define MAX_ENTRIES 4
 #define MIN_ENTRIES 2
@@ -36,7 +37,7 @@ struct node_ele
 struct node
 {
     bool is_leaf;
-    int count; // no of entries stored
+    int count;  // no of entries stored
     Node_ele *elements;
     // add parent node if required
 };
@@ -54,7 +55,7 @@ int CalculateOverlapArea(Rect rect1, Rect rect2);
 Node *chooseSubTree(Node *n);
 int LeafCheck(Node *n);
 Node *descendTree(Node *n);
-Node *ChooseLeaf(Rtree *r, Rect r);
+Node *ChooseLeaf(Rtree *r, Rect r1);
 
 void pickSeeds(Node *node, Rect *r1, Rect *r2);
 void pickNext();
