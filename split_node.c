@@ -1,6 +1,5 @@
-#include "rtree.h"
-#include <stdlib.h>
 #include <math.h>
+#include <stdlib.h>
 
 void pickSeeds(Node* node, Node* node1, Node* node2) {
     int max_area = 0, area, area1, area2;       // distance b/w points
@@ -15,7 +14,11 @@ void pickSeeds(Node* node, Node* node1, Node* node2) {
             rect1 = node->elements[i].mbr;
             rect2 = node->elements[j].mbr;
 
-            rect.topRight.x = fmax(rect1.topRight.x, rect2.topRight.x); //we are doing this to find the rectangle of smallest area that encloses rect1 and rect2
+            rect.topRight.x =
+                fmax(rect1.topRight.x,
+                     rect2.topRight
+                         .x);  // we are doing this to find the rectangle of
+                               // smallest area that encloses rect1 and rect2
             rect.topRight.y = fmax(rect1.topRight.y, rect2.topRight.y);
             rect.bottomLeft.x = fmin(rect1.bottomLeft.x, rect2.bottomLeft.x);
             rect.bottomLeft.y = fmin(rect1.bottomLeft.y, rect2.bottomLeft.y);
@@ -24,7 +27,10 @@ void pickSeeds(Node* node, Node* node1, Node* node2) {
             area1 = CalculateAreaOfrectangle(rect1);
             area2 = CalculateAreaOfrectangle(rect2);
 
-            if(max_area < area - area1 - area2) {   //we are selecting the 2 rectangles which have the maximum aread inbetween them when we bound those two rectangles with a bigger rectangle
+            if (max_area < area - area1 - area2)
+            {  // we are selecting the 2 rectangles which have the maximum aread
+               // inbetween them when we bound those two rectangles with a
+               // bigger rectangle
                 max_area = area - area1 - area2;
                 node1->elements[0] = node->elements[i];
                 node2->elements[0] = node->elements[j];

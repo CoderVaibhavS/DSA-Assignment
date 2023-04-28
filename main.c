@@ -1,7 +1,8 @@
-/* ------------------------------------------------------------------------------------------------------------------------ */
+/* ------------------------------------------------------------------------------------------------------------------------
+ */
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 #define MAX_ENTRIES 4
 #define MIN_ENTRIES 2
@@ -34,7 +35,7 @@ struct node_ele
 struct node
 {
     bool is_leaf;
-    int count; // no of entries stored
+    int count;  // no of entries stored
     Node_ele *elements;
     // add parent node if required
     Node *parent;
@@ -48,23 +49,27 @@ struct rtree
 //------------------------------------------------------------------------------------------------------------------------------------------
 // creating R Tree function
 
-Rtree *createRtree() // No parameters required to create a rtree
+Rtree *createRtree()  // No parameters required to create a rtree
 {
-    Rtree *rtree = (Rtree *) malloc(sizeof(Rtree)); // Creating r tree dynamically
-    rtree->root = (Node *) malloc(sizeof(Node));    // Creating root node dynamically
+    Rtree *rtree =
+        (Rtree *)malloc(sizeof(Rtree));  // Creating r tree dynamically
+    rtree->root =
+        (Node *)malloc(sizeof(Node));  // Creating root node dynamically
 
-    rtree->root->is_leaf = true; // Only node is the root itself,hence it's a leaf node.
-    rtree->root->count = 0;      // Initial count is zero as no elements added to the root.
+    rtree->root->is_leaf =
+        true;  // Only node is the root itself,hence it's a leaf node.
+    rtree->root->count =
+        0;  // Initial count is zero as no elements added to the root.
     rtree->root->parent = NULL;  // Root is itself at the topmost level.
 
-    return rtree; // returning the tree
+    return rtree;  // returning the tree
 }
 
 // Creating Node function
 
 Node *createNode(Node *parent, bool is_leaf) // takes 2 parameters
 {
-    Node *node = (Node *) malloc(sizeof(Node)); // creating a node dynamically
+    Node *node = (Node *)malloc(sizeof(Node));  // creating a node dynamically
 
     node->is_leaf = is_leaf; // initializing all the fiels of the struct node.
     node->count = 0;         // initial count=0
@@ -72,11 +77,9 @@ Node *createNode(Node *parent, bool is_leaf) // takes 2 parameters
     node->parent = parent;   // initializing parent
     node->parent->is_leaf = false;
 
-    return node; // returning the node
+    return node;  // returning the node
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------
 
-int main()
-{
-}
+int main() {}
