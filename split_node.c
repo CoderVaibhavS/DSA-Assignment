@@ -6,14 +6,14 @@ void pickSeeds(Node* node, Node* node1, Node* node2) {
     int max_area = 0, area, area1, area2;       // distance b/w points
     Rect rect, rect1, rect2;
 
-    node1 = createNode(node->parent, true);
-    node2 = createNode(node->parent, true);
+    node1 = createNode(node->parent);
+    node2 = createNode(node->parent);
 
     for(int i=0; i<node->count; i++) {
         for(int j=i+1; j<node->count; j++) {
 
-            rect1 = node->elements[i].mbr;
-            rect2 = node->elements[j].mbr;
+            rect1 = node->elements[i]->mbr;
+            rect2 = node->elements[j]->mbr;
 
             rect.topRight.x =
                 fmax(rect1.topRight.x,
