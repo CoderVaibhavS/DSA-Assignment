@@ -1,3 +1,4 @@
+#include "rtree.h"
 #include <math.h>
 #include <stdlib.h>
 
