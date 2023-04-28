@@ -3,183 +3,159 @@
 
 #include "rtree.h"
 
-void traversal(Node* root)
-{
-    for (int i = 0; i < root->count; i++)
-    {
-        Rect rect = root->elements[i].mbr;
-        printf("%d %d %d %d\n", rect.topRight.x, rect.topRight.y,
-               rect.bottomLeft.x, rect.bottomLeft.y);
-        if (!root->is_leaf) traversal(root->elements[i].child);
-    }
-}
-
 int main()
 {
     Rtree* rtree = createRtree();
-
+    
     rtree->root = createNode(NULL);
     rtree->root->is_leaf = false;
 
     rtree->root->elements = (Node_ele**)malloc(MAX_ENTRIES * sizeof(Node_ele*));
-    rtree->root->elements[0].mbr.topRight.x = 100;
-    rtree->root->elements[0].mbr.topRight.y = 100;
-    rtree->root->elements[0].mbr.bottomLeft.x = 75;
-    rtree->root->elements[0].mbr.bottomLeft.y = 75;
-    rtree->root->is_leaf = 0;
+    for(int i=0; i<MAX_ENTRIES; i++) {
+        rtree->root->elements[i] = (Node_ele *) malloc(sizeof(Node_ele));
+    }
+
+    Point topRight, bottomLeft;
+    topRight.x = topRight.y = 100;
+    bottomLeft.x = bottomLeft.y = 75;
+    rtree->root->elements[0] = createNodeEle(rtree->root, topRight, bottomLeft);
     rtree->root->count++;
 
-    rtree->root->elements[1].mbr.topRight.x = 75;
-    rtree->root->elements[1].mbr.topRight.y = 75;
-    rtree->root->elements[1].mbr.bottomLeft.x = 50;
-    rtree->root->elements[1].mbr.bottomLeft.y = 50;
+    topRight.x = topRight.y = 75;
+    bottomLeft.x = bottomLeft.y = 50;
+    rtree->root->elements[1] = createNodeEle(rtree->root, topRight, bottomLeft);
     rtree->root->count++;
 
-    rtree->root->elements[2].mbr.topRight.x = 50;
-    rtree->root->elements[2].mbr.topRight.y = 50;
-    rtree->root->elements[2].mbr.bottomLeft.x = 25;
-    rtree->root->elements[2].mbr.bottomLeft.y = 25;
+    topRight.x = topRight.y = 50;
+    bottomLeft.x = bottomLeft.y = 25;
+    rtree->root->elements[2] = createNodeEle(rtree->root, topRight, bottomLeft);
     rtree->root->count++;
 
-    rtree->root->elements[3].mbr.topRight.x = 25;
-    rtree->root->elements[3].mbr.topRight.y = 25;
-    rtree->root->elements[3].mbr.bottomLeft.x = 0;
-    rtree->root->elements[3].mbr.bottomLeft.y = 0;
+    topRight.x = topRight.y = 25;
+    bottomLeft.x = bottomLeft.y = 0;
+    rtree->root->elements[3] = createNodeEle(rtree->root, topRight, bottomLeft);
     rtree->root->count++;
 
     Node* temp;
 
-    /* -----------------------------------------CHILD
-     * 1---------------------------------------- */
+    /* -----------------------------------------CHILD 1---------------------------------------- */
+    rtree->root->elements[0]->child = createNode(rtree->root->elements[0]);
+    temp = rtree->root->elements[0]->child;
 
-    rtree->root->elements[0].child = (Node*)malloc(sizeof(Node));
-    temp = rtree->root->elements[0].child;
-    temp->count = 0;
-    temp->is_leaf = true;
-    temp->elements = (Node_ele*)malloc(MAX_ENTRIES * sizeof(Node_ele));
-    temp->elements[0].mbr.topRight.x = 95;
-    temp->elements[0].mbr.topRight.y = 95;
-    temp->elements[0].mbr.bottomLeft.x = 75;
-    temp->elements[0].mbr.bottomLeft.y = 75;
+    temp->elements = (Node_ele**)malloc(MAX_ENTRIES * sizeof(Node_ele*));
+    for(int i=0; i<MAX_ENTRIES; i++) {
+        temp->elements[i] = (Node_ele *) malloc(sizeof(Node_ele));
+    }
+
+    topRight.x = topRight.y = 95;
+    bottomLeft.x = bottomLeft.y = 75;
+    temp->elements[0] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    temp->elements[1].mbr.topRight.x = 90;
-    temp->elements[1].mbr.topRight.y = 90;
-    temp->elements[1].mbr.bottomLeft.x = 75;
-    temp->elements[1].mbr.bottomLeft.y = 75;
+    topRight.x = topRight.y = 90;
+    bottomLeft.x = bottomLeft.y = 75;
+    temp->elements[1] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    temp->elements[2].mbr.topRight.x = 85;
-    temp->elements[2].mbr.topRight.y = 85;
-    temp->elements[2].mbr.bottomLeft.x = 75;
-    temp->elements[2].mbr.bottomLeft.y = 75;
+    topRight.x = topRight.y = 85;
+    bottomLeft.x = bottomLeft.y = 75;
+    temp->elements[2] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    temp->elements[3].mbr.topRight.x = 80;
-    temp->elements[3].mbr.topRight.y = 80;
-    temp->elements[3].mbr.bottomLeft.x = 75;
-    temp->elements[3].mbr.bottomLeft.y = 75;
+    topRight.x = topRight.y = 80;
+    bottomLeft.x = bottomLeft.y = 75;
+    temp->elements[3] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    /* -----------------------------------------CHILD
-     * 2---------------------------------------- */
+    /* -----------------------------------------CHILD 2---------------------------------------- */
 
-    rtree->root->elements[1].child = (Node*)malloc(sizeof(Node));
-    temp = rtree->root->elements[1].child;
-    temp->count = 0;
-    temp->is_leaf = true;
-    temp->elements = (Node_ele*)malloc(MAX_ENTRIES * sizeof(Node_ele));
-    temp->elements[0].mbr.topRight.x = 70;
-    temp->elements[0].mbr.topRight.y = 70;
-    temp->elements[0].mbr.bottomLeft.x = 50;
-    temp->elements[0].mbr.bottomLeft.y = 50;
+    rtree->root->elements[1]->child = createNode(rtree->root->elements[1]);
+    temp = rtree->root->elements[1]->child;
+
+    temp->elements = (Node_ele**)malloc(MAX_ENTRIES * sizeof(Node_ele*));
+    for(int i=0; i<MAX_ENTRIES; i++) {
+        temp->elements[i] = (Node_ele *) malloc(sizeof(Node_ele));
+    }
+
+    topRight.x = topRight.y = 70;
+    bottomLeft.x = bottomLeft.y = 50;
+    temp->elements[0] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    rtree->root->elements[1].child = (Node*)malloc(sizeof(Node));
-    temp->elements[1].mbr.topRight.x = 65;
-    temp->elements[1].mbr.topRight.y = 65;
-    temp->elements[1].mbr.bottomLeft.x = 50;
-    temp->elements[1].mbr.bottomLeft.y = 50;
+    topRight.x = topRight.y = 65;
+    bottomLeft.x = bottomLeft.y = 50;
+    temp->elements[1] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    rtree->root->elements[1].child = (Node*)malloc(sizeof(Node));
-    temp->elements[2].mbr.topRight.x = 60;
-    temp->elements[2].mbr.topRight.y = 60;
-    temp->elements[2].mbr.bottomLeft.x = 50;
-    temp->elements[2].mbr.bottomLeft.y = 50;
+    topRight.x = topRight.y = 60;
+    bottomLeft.x = bottomLeft.y = 50;
+    temp->elements[2] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    temp->elements[3].mbr.topRight.x = 55;
-    temp->elements[3].mbr.topRight.y = 55;
-    temp->elements[3].mbr.bottomLeft.x = 50;
-    temp->elements[3].mbr.bottomLeft.y = 50;
+    topRight.x = topRight.y = 55;
+    bottomLeft.x = bottomLeft.y = 50;
+    temp->elements[3] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    /* -----------------------------------------CHILD
-     * 3---------------------------------------- */
+    /* -----------------------------------------CHILD 3---------------------------------------- */
 
-    rtree->root->elements[2].child = (Node*)malloc(sizeof(Node));
-    temp = rtree->root->elements[2].child;
-    temp->count = 0;
-    temp->is_leaf = true;
-    temp->elements = (Node_ele*)malloc(MAX_ENTRIES * sizeof(Node_ele));
-    temp->elements[0].mbr.topRight.x = 45;
-    temp->elements[0].mbr.topRight.y = 45;
-    temp->elements[0].mbr.bottomLeft.x = 25;
-    temp->elements[0].mbr.bottomLeft.y = 25;
+    rtree->root->elements[2]->child = createNode(rtree->root->elements[2]);
+    temp = rtree->root->elements[2]->child;
+
+    temp->elements = (Node_ele**)malloc(MAX_ENTRIES * sizeof(Node_ele*));
+    for(int i=0; i<MAX_ENTRIES; i++) {
+        temp->elements[i] = (Node_ele *) malloc(sizeof(Node_ele));
+    }
+
+    topRight.x = topRight.y = 45;
+    bottomLeft.x = bottomLeft.y = 25;
+    temp->elements[0] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    temp->elements[1].mbr.topRight.x = 40;
-    temp->elements[1].mbr.topRight.y = 40;
-    temp->elements[1].mbr.bottomLeft.x = 25;
-    temp->elements[1].mbr.bottomLeft.y = 25;
+    topRight.x = topRight.y = 40;
+    bottomLeft.x = bottomLeft.y = 25;
+    temp->elements[1] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    temp->elements[2].mbr.topRight.x = 35;
-    temp->elements[2].mbr.topRight.y = 35;
-    temp->elements[2].mbr.bottomLeft.x = 25;
-    temp->elements[2].mbr.bottomLeft.y = 25;
+    topRight.x = topRight.y = 35;
+    bottomLeft.x = bottomLeft.y = 25;
+    temp->elements[2] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    temp->elements[3].mbr.topRight.x = 30;
-    temp->elements[3].mbr.topRight.y = 30;
-    temp->elements[3].mbr.bottomLeft.x = 25;
-    temp->elements[3].mbr.bottomLeft.y = 25;
+    topRight.x = topRight.y = 30;
+    bottomLeft.x = bottomLeft.y = 25;
+    temp->elements[3] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    /* -----------------------------------------CHILD
-     * 4---------------------------------------- */
+    /* -----------------------------------------CHILD 4---------------------------------------- */
 
-    rtree->root->elements[3].child = (Node*)malloc(sizeof(Node));
-    temp = rtree->root->elements[3].child;
-    temp->count = 0;
-    temp->is_leaf = true;
-    temp->elements = (Node_ele*)malloc(MAX_ENTRIES * sizeof(Node_ele));
-    temp->elements[0].mbr.topRight.x = 20;
-    temp->elements[0].mbr.topRight.y = 20;
-    temp->elements[0].mbr.bottomLeft.x = 0;
-    temp->elements[0].mbr.bottomLeft.y = 0;
+    rtree->root->elements[3]->child = createNode(rtree->root->elements[3]);
+    temp = rtree->root->elements[3]->child;
+
+    temp->elements = (Node_ele**)malloc(MAX_ENTRIES * sizeof(Node_ele*));
+    for(int i=0; i<MAX_ENTRIES; i++) {
+        temp->elements[i] = (Node_ele *) malloc(sizeof(Node_ele));
+    }
+
+    topRight.x = topRight.y = 20;
+    bottomLeft.x = bottomLeft.y = 0;
+    temp->elements[0] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    temp->elements[1].mbr.topRight.x = 15;
-    temp->elements[1].mbr.topRight.y = 15;
-    temp->elements[1].mbr.bottomLeft.x = 0;
-    temp->elements[1].mbr.bottomLeft.y = 0;
+    topRight.x = topRight.y = 15;
+    bottomLeft.x = bottomLeft.y = 0;
+    temp->elements[1] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    temp->elements[2].mbr.topRight.x = 10;
-    temp->elements[2].mbr.topRight.y = 10;
-    temp->elements[2].mbr.bottomLeft.x = 0;
-    temp->elements[2].mbr.bottomLeft.y = 0;
+    topRight.x = topRight.y = 10;
+    bottomLeft.x = bottomLeft.y = 0;
+    temp->elements[2] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    temp->elements[3].mbr.topRight.x = 5;
-    temp->elements[3].mbr.topRight.y = 5;
-    temp->elements[3].mbr.bottomLeft.x = 0;
-    temp->elements[3].mbr.bottomLeft.y = 0;
+    topRight.x = topRight.y = 5;
+    bottomLeft.x = bottomLeft.y = 0;
+    temp->elements[3] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
-    // int x=ChooseLeaf(rtree->root).bottomLeft.x;
-    // printf("%d",&x);
 
     traversal(rtree->root);
 }

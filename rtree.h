@@ -51,6 +51,7 @@ struct rtree
 Node_ele *createNodeEle(Node *container, Point topRight, Point bottomLeft);
 Node *createNode(Node_ele *parent);
 Rtree *createRtree();
+void traversal(Node* root);
 
 int calculateAreaOfRectangle(Rect rec);
 Rect CalculateRecatangleMBR(Node *n);

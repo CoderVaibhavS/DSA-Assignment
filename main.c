@@ -1,5 +1,3 @@
-/* -----------------------------------------------STRUCTURE--------------------------------------------------------------
- */
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,6 +5,7 @@
 #define MAX_ENTRIES 4
 #define MIN_ENTRIES 2
 
+/* -----------------------------------------------STRUCTURE------------------------------------------------------------*/
 typedef struct rtree Rtree;
 typedef struct node Node;
 typedef struct point Point;
@@ -46,7 +45,7 @@ struct rtree
     Node *root;
 };
 
-//------------------------------------------------------------------------------------------------------------------------------------------
+/* --------------------------------------------------GENERATING FUNCTIONS---------------------------------------------------- */
 
 Node_ele *createNodeEle(Node *container, Point topRight, Point bottomLeft) {
     Node_ele *node_ele = (Node_ele *) malloc(sizeof(Node_ele));
@@ -82,6 +81,25 @@ Rtree *createRtree()  // No parameters required to create a rtree
     return rtree;  // returning the tree
 }
 
-//--------------------------------------------------------------------------------------------------------------------------------------
+/* ----------------------------------------------PREORDER TRAVERSAL---------------------------------------------------- */
+void traversal(Node* root) {
+    if(root == NULL)    return;
 
-int main() {}
+    for (int i = 0; i < root->count; i++) {
+        Rect rect = root->elements[i]->mbr;
+        if(root->elements[i]->container->parent == NULL) {
+            printf("Root Node Element: ");
+            printf("%d %d %d %d\n", rect.topRight.x, rect.topRight.y, rect.bottomLeft.x, rect.bottomLeft.y);
+        }
+        else if(root->elements[i]->container->is_leaf) {
+            printf("Leaf Node Element: ");
+            printf("%d %d\n", rect.topRight.x, rect.topRight.y);
+        }
+        else {
+            printf("Internal Node Element: ");
+            printf("%d %d %d %d\n", rect.topRight.x, rect.topRight.y, rect.bottomLeft.x, rect.bottomLeft.y);
+        }
+        if (!root->is_leaf) traversal(root->elements[i]->child);
+    }
+}
+//--------------------------------------------------------------------------------------------------------------------------------------
