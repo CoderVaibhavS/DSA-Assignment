@@ -10,7 +10,7 @@
 
 // Insertion function with necessary helper functions.
 
-int CalculateAreaOfMBR(Rect rect)  // Returns the area of the rectangle
+int calculateAreaOfRectangle(Rect rect)  // Returns the area of the rectangle
 {
     int length = abs(rect.topRight.x -
                      rect.bottomLeft.x);  // this is length of rectangle
@@ -20,7 +20,7 @@ int CalculateAreaOfMBR(Rect rect)  // Returns the area of the rectangle
     return area;                  // returns area of the rectangle
 }
 
-Rect CalculateRecatangleMBR(
+Rect CalculateRectangleMBR(
     Node *n)  // Calculating the minimum bounding rectangle function
 {
     Rect r_mbr;

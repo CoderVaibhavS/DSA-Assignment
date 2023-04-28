@@ -24,9 +24,9 @@ void pickSeeds(Node* node, Node* node1, Node* node2) {
             rect.bottomLeft.x = fmin(rect1.bottomLeft.x, rect2.bottomLeft.x);
             rect.bottomLeft.y = fmin(rect1.bottomLeft.y, rect2.bottomLeft.y);
 
-            area = CalculateAreaOfrectangle(rect);
-            area1 = CalculateAreaOfrectangle(rect1);
-            area2 = CalculateAreaOfrectangle(rect2);
+            area = calculateAreaOfRectangle(rect);
+            area1 = calculateAreaOfRectangle(rect1);
+            area2 = calculateAreaOfRectangle(rect2);
 
             if (max_area < area - area1 - area2)
             {  // we are selecting the 2 rectangles which have the maximum aread

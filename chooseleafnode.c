@@ -6,7 +6,7 @@
 // Before creating the search algorithm we will first create the methods
 // required for insertion Choosing which Node to insert new elemnt to function
 // as per research paper
-int CalculateAreaOfMBR(Rect rect)
+int calculateAreaOfRectangle(Rect rect)
 {
     int length = abs(rect.topRight.x -
                      rect.bottomLeft.x);  // this is length of rectangle
@@ -18,30 +18,30 @@ int CalculateAreaOfMBR(Rect rect)
 
 Node* chooseSubTree(Node* n)  // read
 {
-    int area1 = CalculateAreaOfMBR(n->elements[0].mbr);
-    int area2 = CalculateAreaOfMBR(n->elements[1].mbr);
-    int area3 = CalculateAreaOfMBR(n->elements[2].mbr);
-    int area4 = CalculateAreaOfMBR(n->elements[3].mbr);
+    int area1 = calculateAreaOfRectangle(n->elements[0].mbr);
+    int area2 = calculateAreaOfRectangle(n->elements[1].mbr);
+    int area3 = calculateAreaOfRectangle(n->elements[2].mbr);
+    int area4 = calculateAreaOfRectangle(n->elements[3].mbr);
     Node* child = NULL;
 
     // finding the rectangle with the minimum area
-    int min_area = CalculateAreaOfMBR(
+    int min_area = calculateAreaOfRectangle(
         n->elements[0].mbr);  // Assume the first area is the minimum
     int area;
 
-    area = CalculateAreaOfMBR(n->elements[1].mbr);
+    area = calculateAreaOfRectangle(n->elements[1].mbr);
     if (area < min_area)
     {
         min_area = area;
     }
 
-    area = CalculateAreaOfMBR(n->elements[2].mbr);
+    area = calculateAreaOfRectangle(n->elements[2].mbr);
     if (area < min_area)
     {
         min_area = area;
     }
 
-    area = CalculateAreaOfMBR(n->elements[3].mbr);
+    area = calculateAreaOfRectangle(n->elements[3].mbr);
     if (area < min_area)
     {
         min_area = area;
@@ -49,7 +49,7 @@ Node* chooseSubTree(Node* n)  // read
 
     for (int i = 0; i < MAX_ENTRIES; i++)
     {
-        if (CalculateAreaOfMBR(n->elements[i].mbr) == area)
+        if (calculateAreaOfRectangle(n->elements[i].mbr) == area)
         {
             return n->elements[i].child;
         }

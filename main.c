@@ -1,4 +1,4 @@
-/* ------------------------------------------------------------------------------------------------------------------------
+/* -----------------------------------------------STRUCTURE--------------------------------------------------------------
  */
 #include <stdbool.h>
 #include <stdio.h>
@@ -30,15 +30,15 @@ struct node_ele
 {
     Rect mbr;
     Node *child;
+    Node *container;
 };
 
 struct node
 {
     bool is_leaf;
     int count;  // no of entries stored
-    Node_ele *elements;
-    // add parent node if required
-    Node *parent;
+    Node_ele **elements;
+    Node_ele *parent;
 };
 
 struct rtree
@@ -47,37 +47,39 @@ struct rtree
 };
 
 //------------------------------------------------------------------------------------------------------------------------------------------
-// creating R Tree function
 
-Rtree *createRtree()  // No parameters required to create a rtree
-{
-    Rtree *rtree =
-        (Rtree *)malloc(sizeof(Rtree));  // Creating r tree dynamically
-    rtree->root =
-        (Node *)malloc(sizeof(Node));  // Creating root node dynamically
+Node_ele *createNodeEle(Node *container, Point topRight, Point bottomLeft) {
+    Node_ele *node_ele = (Node_ele *) malloc(sizeof(Node_ele));
+    node_ele->container = container;
+    node_ele->child = NULL;
+    node_ele->mbr.bottomLeft = bottomLeft;
+    node_ele->mbr.topRight = topRight;
 
-    rtree->root->is_leaf =
-        true;  // Only node is the root itself,hence it's a leaf node.
-    rtree->root->count =
-        0;  // Initial count is zero as no elements added to the root.
-    rtree->root->parent = NULL;  // Root is itself at the topmost level.
-
-    return rtree;  // returning the tree
+    return node_ele;
 }
 
 // Creating Node function
 
-Node *createNode(Node *parent, bool is_leaf) // takes 2 parameters
+Node *createNode(Node_ele *parent)
 {
-    Node *node = (Node *)malloc(sizeof(Node));  // creating a node dynamically
+    Node *node = (Node *) malloc(sizeof(Node));  // creating a node dynamically
 
-    node->is_leaf = is_leaf; // initializing all the fiels of the struct node.
-    node->count = 0;         // initial count=0
-    node->elements = (Node_ele *) malloc((MAX_ENTRIES + 1) * sizeof(Node_ele));   // initially no elements in the node
-    node->parent = parent;   // initializing parent
-    node->parent->is_leaf = false;
+    node->is_leaf = true;  // initializing all the fiels of the struct node.
+    node->count = 0;          // initial count=0
+    node->elements = (Node_ele **) malloc((MIN_ENTRIES) * sizeof(Node_ele *));  // initially no elements in the node
+    node->parent = parent;  // initializing parent
+    // node->parent->container->is_leaf = false;
 
     return node;  // returning the node
+}
+
+// creating R Tree function
+Rtree *createRtree()  // No parameters required to create a rtree
+{
+    Rtree *rtree = (Rtree *) malloc(sizeof(Rtree));  // Creating r tree dynamically
+    rtree->root = createNode(NULL);  // Only node is the root itself,hence it's a leaf node.
+
+    return rtree;  // returning the tree
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------

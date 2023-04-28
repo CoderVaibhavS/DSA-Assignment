@@ -1,13 +1,5 @@
 #ifndef RTREE_H
 //------------------------------------------------------------------------------------------------------------------------
-// The dashes like the one shown above show important demarcations and
-// boundaries to make the code readable
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-#define MAX_ENTRIES 4
-#define MIN_ENTRIES 2
 
 typedef struct rtree Rtree;
 typedef struct node Node;
@@ -32,14 +24,15 @@ struct node_ele
 {
     Rect mbr;
     Node *child;
+    Node *container;
 };
 
 struct node
 {
     bool is_leaf;
-    int count;      // no of entries stored
-    Node_ele* elements;
-    Node *parent;
+    int count;  // no of entries stored
+    Node_ele **elements;
+    Node_ele *parent;
 };
 
 struct rtree
@@ -48,9 +41,11 @@ struct rtree
 };
 
 /* DECLARE ALL THE FUNCTION DEFINITIONS HERE */
-Rtree createRTree();
-Node *createNode(Node *parent, bool is_leaf);
-int CalculateAreaOfrectangle(Rect rec);
+Node_ele *createNodeEle(Node *container, Point topRight, Point bottomLeft);
+Node *createNode(Node_ele *parent);
+Rtree *createRtree();
+
+int calculateAreaOfRectangle(Rect rec);
 Rect CalculateRecatangleMBR(Node *n);
 int CalculateOverlapArea(Rect rect1, Rect rect2);
 Node *chooseSubTree(Node *n);
