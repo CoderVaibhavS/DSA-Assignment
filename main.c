@@ -62,13 +62,13 @@ Rtree *createRtree() // No parameters required to create a rtree
 
 // Creating Node function
 
-Node *createNode(Node *parent) // takes 2 parameters
+Node *createNode(Node *parent, bool is_leaf) // takes 2 parameters
 {
     Node *node = (Node *) malloc(sizeof(Node)); // creating a node dynamically
 
-    node->is_leaf = true; // initializing all the fiels of the struct node.
+    node->is_leaf = is_leaf; // initializing all the fiels of the struct node.
     node->count = 0;         // initial count=0
-    node->elements = NULL;   // initially no elements in the node
+    node->elements = (Node_ele *) malloc((MAX_ENTRIES + 1) * sizeof(Node_ele));   // initially no elements in the node
     node->parent = parent;   // initializing parent
     node->parent->is_leaf = false;
 

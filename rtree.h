@@ -34,7 +34,7 @@ struct node {
     bool is_leaf;
     int count;      // no of entries stored
     Node_ele* elements;
-    // add parent node if required
+    Node *parent;
 };
 
 struct rtree {
@@ -44,13 +44,14 @@ struct rtree {
 
 /* DECLARE ALL THE FUNCTION DEFINITIONS HERE */
 Rtree createRTree();
+Node *createNode(Node *parent, bool is_leaf);
 int CalculateAreaOfrectangle(Rect rec);
 Node* chooseSubTree(Node* n);
 int LeafCheck(Node* n);
 Node* descendTree(Node* n);
 Rect ChooseLeaf(Node* r);
 
-void pickSeeds(Node* node, Rect* r1, Rect* r2);
+void pickSeeds(Node* node, Node* node1, Node* node2);
 void pickNext();
 
 Rect create_rectangle(int xmin, int ymin, int xmax,int ymax);
