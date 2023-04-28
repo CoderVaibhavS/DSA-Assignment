@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+
 #include "rtree.h"
 
 // Insertion function with necessary helper functions.
@@ -79,13 +82,14 @@ Rect CalculateRecatangleMBR(
 
 int CalculateOverlapArea(Rect rect1, Rect rect2)  // Overlapping area function
 {
-    int x1 = max(0, min(rect1.topRight.x, rect2.topRight.x));
-    int x2 = max(rect1.bottomLeft.x, rect2.bottomLeft.x);
-    int y1 = max(0, min(rect1.topRight.y, rect2.topRight.y));
-    int y2 = max(rect1.bottomLeft.y, rect2.bottomLeft.y);
+    int x1 = MAX(0, MIN(rect1.topRight.x, rect2.topRight.x));
+    int x2 = MAX(rect1.bottomLeft.x, rect2.bottomLeft.x);
+    int y1 = MAX(0, MIN(rect1.topRight.y, rect2.topRight.y));
+    int y2 = MAX(rect1.bottomLeft.y, rect2.bottomLeft.y);
 
     int xOverlap = x1 - x2;
     int yOverlap = y1 - y2;
+
     int overlap = xOverlap * yOverlap;
 
     return overlap;
