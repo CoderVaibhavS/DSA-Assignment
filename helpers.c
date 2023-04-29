@@ -15,7 +15,7 @@ Rect createMBR(Rect rect1, Rect rect2)
     return rect;
 }
 
-int calculateAreaOfRectangle(Rect rect)
+int calculateAreaOfRectangle(Rect rect)  // Returns the area of the rectangle
 {
     int height = abs(rect.topRight.x - rect.bottomLeft.x);
     int width = abs(rect.topRight.y - rect.bottomLeft.y);
