@@ -1,13 +1,7 @@
 #include <math.h>
 #include <stdio.h>
+
 #include "rtree.h"
-
-
-int calcAreaEnlargement(Rect rectCont, Rect rectChild)
-{
-    Rect enlargedRect = createMBR(rectCont, rectChild);
-    return calculateAreaOfRectangle(enlargedRect) - calculateAreaOfRectangle(rectCont);
-}
 
 Node_ele* chooseSubTree(Node* node, Rect rectAdd)
 {

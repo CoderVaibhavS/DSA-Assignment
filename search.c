@@ -72,15 +72,13 @@ void search(Node *search_node,
     return;
 }
 
-
-// functions and code of testing.c used to test the search operation, 
+// functions and code of testing.c used to test the search operation,
 // CHANGES MADE :
 // tweaked with the CreateNode logic to change parent node's is_leaf to false
 // added 1 child node to get an internal node,
 //----- final structure being : 1 root node at level 1,
 //---------------------------   1 internal node at level 2,
 //---------------------------   3 leaf nodes at level 2 & 1 leaf node at level 3
-
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -119,7 +117,8 @@ void search(Node *search_node,
 //     return rtree;  // returning the tree
 // }
 
-// /* ----------------------------------------------PREORDER TRAVERSAL----------------------------------------------------
+// /* ----------------------------------------------PREORDER
+// TRAVERSAL----------------------------------------------------
 //  */
 // void traversal(Node *root)
 // {
@@ -245,10 +244,7 @@ void search(Node *search_node,
 //     temp->elements[3] = createNodeEle(temp, topRight, bottomLeft);
 //     temp->count++;
 
-
-
-
-//   // -------- added a child at level 3 to make one internal node, 
+//   // -------- added a child at level 3 to make one internal node,
 //   // -------- final structure being : 1 root node at level 1,
 //   // ------------------------------   1 internal node at level 2,
 //   // ------------------------------   3 leaf nodes at level 2 & 1 leaf node at level 3
@@ -266,9 +262,6 @@ void search(Node *search_node,
 //     bottomLeft.x = bottomLeft.y = 51;
 //     temp->elements[0] = createNodeEle(temp, topRight, bottomLeft);
 //     temp->count++;
-
-
-
 
 //     /* -----------------------------------------CHILD 3---------------------------------------- */
 
@@ -342,6 +335,5 @@ void search(Node *search_node,
 //     Rect r1 = create_rectangle(40, 40, 65, 65);
 //     search(rtree->root, r1);
 // }
-
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
