@@ -54,6 +54,7 @@ Rtree *createRtree();
 void traversal(Node *root);
 
 int calculateAreaOfRectangle(Rect rec);
+Rect createMBR(Rect rect1, Rect rect2);
 // Rect CalculateRecatangleMBR(Node *n);
 // int CalculateOverlapArea(Rect rect1, Rect rect2);
 Node_ele *chooseSubTree(Node *n, Rect r);

@@ -67,7 +67,7 @@ Node *createNode(Node_ele *parent)
 
     node->is_leaf = true;  // initializing all the fiels of the struct node.
     node->count = 0;       // initial count=0
-    node->elements = (Node_ele **)malloc((MIN_ENTRIES) * sizeof(Node_ele *));  // initially no elements in the node
+    node->elements = (Node_ele **)malloc((MAX_ENTRIES + 1) * sizeof(Node_ele *));  // initially no elements in the node
     node->parent = parent;                                                     // initializing parent
     // node->parent->container->is_leaf = false;
 

@@ -2,19 +2,10 @@
 #include <stdio.h>
 #include "rtree.h"
 
+
 int calcAreaEnlargement(Rect rectCont, Rect rectChild)
 {
-    int xMin = fmin(rectCont.bottomLeft.x, rectChild.bottomLeft.x);
-    int yMin = fmin(rectCont.bottomLeft.y, rectChild.bottomLeft.y);
-    int xMax = fmax(rectCont.topRight.x, rectChild.topRight.x);
-    int yMax = fmax(rectCont.topRight.y, rectChild.topRight.y);
-
-    Rect enlargedRect;
-    enlargedRect.topRight.x = xMax;
-    enlargedRect.topRight.y = yMax;
-    enlargedRect.bottomLeft.x = xMin;
-    enlargedRect.bottomLeft.y = yMin;
-
+    Rect enlargedRect = createMBR(rectCont, rectChild);
     return calculateAreaOfRectangle(enlargedRect) - calculateAreaOfRectangle(rectCont);
 }
 
