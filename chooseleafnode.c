@@ -48,6 +48,6 @@ Node* ChooseLeaf(Rtree* tree, Rect rectAdd)
         node = chooseSubTree(node, rectAdd)->child;
     }
     Rect mbr = node->parent->mbr;
-    printf("(%d, %d) -> (%d, %d)", mbr.bottomLeft.x, mbr.bottomLeft.y, mbr.topRight.x, mbr.topRight.y);
+    // printf("(%d, %d) -> (%d, %d)", mbr.bottomLeft.x, mbr.bottomLeft.y, mbr.topRight.x, mbr.topRight.y);
     return node;
 }

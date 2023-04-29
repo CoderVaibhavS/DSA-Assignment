@@ -162,11 +162,11 @@ int main()
     temp->elements[3] = createNodeEle(temp, topRight, bottomLeft);
     temp->count++;
 
-    // traversal(rtree->root);
     Rect r1;
     r1.bottomLeft.x = 0;
     r1.bottomLeft.y = 0;
     r1.topRight.x = 5;
     r1.topRight.y = 5;
-    ChooseLeaf(rtree, r1);
+    insert(rtree, r1.bottomLeft, r1.topRight);
+    traversal(rtree->root);
 }

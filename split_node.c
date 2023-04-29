@@ -85,8 +85,8 @@ void pickNext(Node *node, Node *node1, Node *node2)
 SplitResult *nodeSplit(Node *node)
 {
     // UPDATE THE NODE PARENTS
-    Node *node1 = createNode(node->parent);
-    Node *node2 = createNode(node->parent);
+    Node *node1 = createNode(NULL);
+    Node *node2 = createNode(NULL);
 
     pickSeeds(node, node1, node2);
 
