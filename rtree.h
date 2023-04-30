@@ -15,48 +15,48 @@ typedef struct rectangle Rect;
 typedef struct node_ele Node_ele;
 typedef struct splitResult SplitResult;
 
-struct point
+struct point         //this struct basically represents any cartesian coordinate
 {
     int x;
-    int y;
+    int y;      
 };
 
 // Assuming the coordinates to be integers
-struct rectangle
-{
+struct rectangle   //this struct represents a rectangle
+{//we have chosem topRight and bottomLeft points because these for the endpoints of a rectangle and are enough to define a rectangle
     Point topRight;
     Point bottomLeft;
 };
 
-struct node_ele
+struct node_ele  //this is the struct which contains the MBR
 {
     Rect mbr;
-    Node *child;
-    Node *container;
+    Node *child; //this represents the node that contains and encloses the children MBR
+    Node *container; //this represents the node which encapsulates our current MBR while containing many other MBRs
 };
 
-struct node
+struct node //this is the container which contains node_ele
 {
-    bool is_leaf;
-    int count;  // no of entries stored
-    Node_ele **elements;
-    Node_ele *parent;
+    bool is_leaf; //to check if the node is leaf or non-leaf
+    int count;  // no of node_ele present
+    Node_ele **elements; //array of node_ele present within node
+    Node_ele *parent;//this basically represents the parent of the node which is node_ele or in other words the child in node_ele will point to this node
 };
 
-struct rtree
+struct rtree //structure which represents the r tree and contains the starting root node
 {
     Node *root;
 };
 
-struct splitResult
+struct splitResult //this is a temporary strct that we will use to help us with splitting of a node during insertion in the case of overflow
 {
-    Node_ele *parent;
-    Node *leaf1;
+    Node_ele *parent; //we are keeping track of the parent of the node which is basically node_ele and parent->child will be the current node that we are splitting
+    Node *leaf1; //leaf1 and leaf2 are the two nodes the initial node is splitting into
     Node *leaf2;
 };
 
 /* DECLARE ALL THE FUNCTION DEFINITIONS HERE */
-Node_ele *createNodeEle(Node *container, Point topRight, Point bottomLeft);
+Node_ele *createNodeEle(Node *container, Point topRight, Point bottomLeft); //these various methods will be explained wherever they were defined
 Node *createNode(Node_ele *parent, bool isLeaf);
 Rtree *createRtree();
 void traversal(Node *root);
