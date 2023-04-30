@@ -7,8 +7,7 @@ int main()
 {
     Rtree *rtree = createRtree();
 
-    rtree->root = createNode(NULL);
-    rtree->root->is_leaf = false;
+    rtree->root = createNode(NULL, false);
 
     rtree->root->elements = (Node_ele **)malloc(MAX_ENTRIES * sizeof(Node_ele *));
     for (int i = 0; i < MAX_ENTRIES; i++)
@@ -40,7 +39,7 @@ int main()
     Node *temp;
 
     /* -----------------------------------------CHILD 1---------------------------------------- */
-    rtree->root->elements[0]->child = createNode(rtree->root->elements[0]);
+    rtree->root->elements[0]->child = createNode(rtree->root->elements[0], true);
     temp = rtree->root->elements[0]->child;
 
     temp->elements = (Node_ele **)malloc(MAX_ENTRIES * sizeof(Node_ele *));
@@ -71,7 +70,7 @@ int main()
 
     /* -----------------------------------------CHILD 2---------------------------------------- */
 
-    rtree->root->elements[1]->child = createNode(rtree->root->elements[1]);
+    rtree->root->elements[1]->child = createNode(rtree->root->elements[1], true);
     temp = rtree->root->elements[1]->child;
 
     temp->elements = (Node_ele **)malloc(MAX_ENTRIES * sizeof(Node_ele *));
@@ -102,7 +101,7 @@ int main()
 
     /* -----------------------------------------CHILD 3---------------------------------------- */
 
-    rtree->root->elements[2]->child = createNode(rtree->root->elements[2]);
+    rtree->root->elements[2]->child = createNode(rtree->root->elements[2], true);
     temp = rtree->root->elements[2]->child;
 
     temp->elements = (Node_ele **)malloc(MAX_ENTRIES * sizeof(Node_ele *));
@@ -133,7 +132,7 @@ int main()
 
     /* -----------------------------------------CHILD 4---------------------------------------- */
 
-    rtree->root->elements[3]->child = createNode(rtree->root->elements[3]);
+    rtree->root->elements[3]->child = createNode(rtree->root->elements[3], true);
     temp = rtree->root->elements[3]->child;
 
     temp->elements = (Node_ele **)malloc(MAX_ENTRIES * sizeof(Node_ele *));
@@ -165,8 +164,8 @@ int main()
     Rect r1;
     r1.bottomLeft.x = 0;
     r1.bottomLeft.y = 0;
-    r1.topRight.x = 5;
-    r1.topRight.y = 5;
+    r1.topRight.x = 3;
+    r1.topRight.y = 3;
     insert(rtree, r1.bottomLeft, r1.topRight);
     traversal(rtree->root);
 }

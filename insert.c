@@ -24,8 +24,7 @@ void insert(Rtree* tree, Point bottomLeft, Point topRight)
     split = adjustTree(split);
     if (split->leaf1 != split->leaf2)
     {
-        Node* root = createNode(NULL);
-        root->is_leaf = false;
+        Node* root = createNode(NULL, false);
         createNodeParent(split->leaf1);
         createNodeParent(split->leaf2);
         Node_ele* dummy = createNodeEle(root, topRight, bottomLeft);

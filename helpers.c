@@ -30,6 +30,10 @@ int calcAreaEnlargement(Rect rectCont, Rect rectChild)
 
 void createNodeParent(Node *node)
 {
+    if (node->parent != NULL)
+    {
+        free(node->parent);
+    }
     Rect mbr;
     mbr = node->elements[0]->mbr;
     for (int i = 1; i < node->count; i++)

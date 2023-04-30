@@ -7,8 +7,20 @@
 // node1 and 2 are the splitted nodes, after splitting free(node)
 void pickSeeds(Node *node, Node *node1, Node *node2)
 {
-    int max_area = 0, area, area1, area2;  // distance b/w points
+    int max_area, area, area1, area2;  // distance b/w points
+    int elem1, elem2;
     Rect rect, rect1, rect2;
+    rect1 = node->elements[0]->mbr;
+    rect2 = node->elements[1]->mbr;
+
+    rect = createMBR(rect1, rect2);
+
+    area = calculateAreaOfRectangle(rect);
+    area1 = calculateAreaOfRectangle(rect1);
+    area2 = calculateAreaOfRectangle(rect2);
+    max_area = area - area1 - area2;
+    elem1 = 0;
+    elem2 = 1;
 
     for (int i = 0; i < node->count; i++)
     {
@@ -28,11 +40,13 @@ void pickSeeds(Node *node, Node *node1, Node *node2)
                 // inbetween them when we bound those two rectangles with a
                 // bigger rectangle
                 max_area = area - area1 - area2;
-                node1->elements[0] = node->elements[i];
-                node2->elements[0] = node->elements[j];
+                elem1 = i;
+                elem2 = j;
             }
         }
     }
+    node1->elements[0] = node->elements[elem1];
+    node2->elements[0] = node->elements[elem2];
     node1->count = 1;
     node2->count = 1;
 }
@@ -74,24 +88,26 @@ void pickNext(Node *node, Node *node1, Node *node2)
 
     if (diff1 < diff2)
     {
-        node1->elements[node->count++] = node->elements[idx];
+        node1->elements[node1->count++] = node->elements[idx];
     }
     else
     {
-        node2->elements[node->count++] = node->elements[idx];
+        node2->elements[node2->count++] = node->elements[idx];
     }
 }
 
 SplitResult *nodeSplit(Node *node)
 {
     // UPDATE THE NODE PARENTS
-    Node *node1 = createNode(NULL);
-    Node *node2 = createNode(NULL);
+    Node *node1 = createNode(NULL, node->is_leaf);
+    Node *node2 = createNode(NULL, node->is_leaf);
 
     pickSeeds(node, node1, node2);
 
     while (node1->count + node2->count < node->count)
     {
+        createNodeParent(node1);
+        createNodeParent(node2);
         // node2 is underflowed
         if (MAX_ENTRIES + 1 - node1->count == MIN_ENTRIES)
         {

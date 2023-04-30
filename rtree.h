@@ -57,7 +57,7 @@ struct splitResult
 
 /* DECLARE ALL THE FUNCTION DEFINITIONS HERE */
 Node_ele *createNodeEle(Node *container, Point topRight, Point bottomLeft);
-Node *createNode(Node_ele *parent);
+Node *createNode(Node_ele *parent, bool isLeaf);
 Rtree *createRtree();
 void traversal(Node *root);
 
