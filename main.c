@@ -97,17 +97,27 @@ void traversal(Node *root)
         if (root->elements[i]->container->parent == NULL)
         {
             printf("Root Node Element: ");
-            printf("%d %d %d %d\n", rect.topRight.x, rect.topRight.y, rect.bottomLeft.x, rect.bottomLeft.y);
+            // printf("%d %d %d %d\n", rect.bottomLeft.x, rect.topRight.y, rect.bottomLeft.x, rect.bottomLeft.y);
+            printf("(%d, %d) -> (%d, %d)\n", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
         }
         else if (root->elements[i]->container->is_leaf)
         {
             printf("Leaf Node Element: ");
-            printf("%d %d\n", rect.topRight.x, rect.topRight.y);
+            if (rect.topRight.x == rect.bottomLeft.x && rect.topRight.y == rect.bottomLeft.y)
+            {
+                printf("%d %d\n", rect.topRight.x, rect.topRight.y);
+            }
+            else
+            {
+                printf("(%d, %d) -> (%d, %d)\n", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x,
+                       rect.topRight.y);
+            }
         }
         else
         {
             printf("Internal Node Element: ");
-            printf("%d %d %d %d\n", rect.topRight.x, rect.topRight.y, rect.bottomLeft.x, rect.bottomLeft.y);
+            // printf("%d %d %d %d\n", rect.topRight.x, rect.topRight.y, rect.bottomLeft.x, rect.bottomLeft.y);
+            printf("(%d, %d) -> (%d, %d)\n", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
         }
         if (!root->is_leaf) traversal(root->elements[i]->child);
     }

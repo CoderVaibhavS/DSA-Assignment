@@ -47,6 +47,8 @@ void pickSeeds(Node *node, Node *node1, Node *node2)
     }
     node1->elements[0] = node->elements[elem1];
     node2->elements[0] = node->elements[elem2];
+    node->elements[elem1]->container = node1;
+    node->elements[elem2]->container = node2;
     node1->count = 1;
     node2->count = 1;
 }
@@ -89,10 +91,12 @@ void pickNext(Node *node, Node *node1, Node *node2)
     if (diff1 < diff2)
     {
         node1->elements[node1->count++] = node->elements[idx];
+        node->elements[idx]->container = node1;
     }
     else
     {
         node2->elements[node2->count++] = node->elements[idx];
+        node->elements[idx]->container = node2;
     }
 }
 
@@ -117,6 +121,7 @@ SplitResult *nodeSplit(Node *node)
                     !isPresent(node2->elements, node2->count, node->elements[i]->mbr))
                 {
                     node2->elements[node2->count++] = node->elements[i];
+                    node->elements[i]->container = node2;
                 }
             }
         }
@@ -129,6 +134,7 @@ SplitResult *nodeSplit(Node *node)
                     !isPresent(node2->elements, node2->count, node->elements[i]->mbr))
                 {
                     node1->elements[node1->count++] = node->elements[i];
+                    node->elements[i]->container = node1;
                 }
             }
         }
