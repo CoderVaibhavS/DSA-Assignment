@@ -5,8 +5,8 @@
 bool is_overlap(Rect r, Rect mbr)  // checks for an overlap between the
                                    // rectangle and the MBR in a node
 {
-    if (r.bottomLeft.x < mbr.topRight.x && r.bottomLeft.y < mbr.topRight.y && r.topRight.x > mbr.bottomLeft.x &&
-        r.topRight.y > mbr.bottomLeft.y)
+    if (r.bottomLeft.x <= mbr.topRight.x && r.bottomLeft.y <= mbr.topRight.y && r.topRight.x >= mbr.bottomLeft.x &&
+        r.topRight.y >= mbr.bottomLeft.y)
         return true;
     // returns true if the bottomleft point of search rectangle is less than the
     // topright of MBR and the topright of search rectangle is greater than
@@ -25,25 +25,28 @@ void search(Node *search_node,
                        search_node->elements[i]->mbr))  // checks for an overlap through
                                                         // the is_overlap function
         {
-            if (search_node->parent == NULL)
+            if (search_node->parent == NULL)  // overlapped MBR is from a root node
             {
-                printf(" %s overlapped MBR has index : %d, bottomleft & topright coords : (%d,%d) (%d,%d) \n",
+                printf("%s overlapped MBR index : %d, BottomLeft & TopRight bounds : (%d,%d) (%d,%d) \n",
                        "\nRoot node - ", i + 1, search_node->elements[i]->mbr.bottomLeft.x,
                        search_node->elements[i]->mbr.bottomLeft.y, search_node->elements[i]->mbr.topRight.x,
                        search_node->elements[i]->mbr.topRight.y);
                 // if an overlap is found, the bottomleft and topright datapoints of
                 // the MBR is displayed along with the type of node the MBR is a part of
             }
-            else
+            else if (search_node->is_leaf == false)  // overlapped MBR is from an internal node
             {
-                printf(
-                    " %s overlapped MBR has index : %d; bottomleft & topright coords : (%d,%d) (%d,%d) under the "
-                    "parent node : (%d,%d) (%d,%d)\n",
-                    search_node->is_leaf == false ? " internal node - " : "        leaf node - ", i + 1,
-                    search_node->elements[i]->mbr.bottomLeft.x, search_node->elements[i]->mbr.bottomLeft.y,
-                    search_node->elements[i]->mbr.topRight.x, search_node->elements[i]->mbr.topRight.y,
-                    search_node->parent->mbr.bottomLeft.x, search_node->parent->mbr.bottomLeft.y,
-                    search_node->parent->mbr.topRight.x, search_node->parent->mbr.topRight.y);
+                printf("%s overlapped MBR index : %d, BottomLeft & TopRight bounds : (%d,%d) (%d,%d) \n",
+                       " --> internal node - ", i + 1, search_node->elements[i]->mbr.bottomLeft.x,
+                       search_node->elements[i]->mbr.bottomLeft.y, search_node->elements[i]->mbr.topRight.x,
+                       search_node->elements[i]->mbr.topRight.y);
+                // if an overlap is found, the bottomleft and topright datapoints of
+                // the MBR is displayed along with the type of node the MBR is a part of
+            }
+            else  // overlapped MBR is part of a leaf node (datapoint)
+            {
+                printf(" %s overlapped datapoint index : %d, datapoint : (%d,%d) \n", "   ----> leaf node - ", i + 1,
+                       search_node->elements[i]->mbr.bottomLeft.x, search_node->elements[i]->mbr.bottomLeft.y);
                 // if an overlap is found, the bottomleft and topright datapoints of
                 // the MBR is displayed along with the type of node the MBR is a part of
             }
