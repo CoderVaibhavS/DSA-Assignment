@@ -2,15 +2,6 @@
 
 #include "rtree.h"
 
-Rect create_rectangle(int xmin, int ymin, int xmax, int ymax)
-{
-    Rect *Rectangle = (Rect *)malloc(sizeof(Rect));
-    Rectangle->bottomLeft.x = xmin;
-    Rectangle->bottomLeft.y = ymin;
-    Rectangle->topRight.x = xmax;
-    Rectangle->topRight.y = ymax;
-    return *Rectangle;
-}
 bool is_overlap(Rect r, Rect mbr)  // checks for an overlap between the
                                    // rectangle and the MBR in a node
 {

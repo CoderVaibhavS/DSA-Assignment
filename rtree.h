@@ -79,7 +79,6 @@ SplitResult *adjustTree(SplitResult *split);
 void pickSeeds(Node *node, Node *node1, Node *node2);
 void pickNext(Node *node, Node *node1, Node *node2);
 
-Rect create_rectangle(int xmin, int ymin, int xmax, int ymax);
 bool is_overlap(Rect r, Rect mbr);
 void search(Node *search_node, Rect search_rect);
 void insert(Rtree *r, Point p1, Point p2);

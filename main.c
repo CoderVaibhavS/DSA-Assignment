@@ -50,11 +50,11 @@ typedef struct node_ele Node_ele;
 /* --------------------------------------------------GENERATING
  * FUNCTIONS---------------------------------------------------- */
 
-Node_ele *createNodeEle(Node *container, Point topRight, Point bottomLeft)
+Node_ele *createNodeEle(Node *container, Point topRight, Point bottomLeft)  // function to create a node_ele
 {
-    Node_ele *node_ele = (Node_ele *)malloc(sizeof(Node_ele));
-    node_ele->container = container;
-    node_ele->child = NULL;
+    Node_ele *node_ele = (Node_ele *)malloc(sizeof(Node_ele));  // dynamically allocating memory
+    node_ele->container = container;                            // initializing all the parameters with
+    node_ele->child = NULL;                                     // appropriate values
     node_ele->mbr.bottomLeft = bottomLeft;
     node_ele->mbr.topRight = topRight;
 
@@ -67,10 +67,10 @@ Node *createNode(Node_ele *parent, bool isLeaf)
 {
     Node *node = (Node *)malloc(sizeof(Node));  // creating a node dynamically
 
-    node->is_leaf = isLeaf;  // initializing all the fiels of the struct node.
+    node->is_leaf = isLeaf;  // initializing all the fields of the struct node.
     node->count = 0;         // initial count=0
-    node->elements = (Node_ele **)malloc((MAX_ENTRIES + 1) * sizeof(Node_ele *));  // initially no elements in the node
-    node->parent = parent;                                                         // initializing parent
+    node->elements = (Node_ele **)malloc((MAX_ENTRIES + 1) * sizeof(Node_ele *));
+    node->parent = parent;  // initializing parent
     // node->parent->container->is_leaf = false;
 
     return node;  // returning the node
@@ -87,20 +87,23 @@ Rtree *createRtree()  // No parameters required to create a rtree
 
 /* ----------------------------------------------PREORDER TRAVERSAL----------------------------------------------------
  */
-void traversal(Node *root)
+void traversal(Node *root)  // code for pre order traversal
 {
-    if (root == NULL) return;
+    if (root == NULL) return;  // simply returning if root is null
 
-    for (int i = 0; i < root->count; i++)
+    for (int i = 0; i < root->count; i++)  // iterating through all elements of the root
     {
         Rect rect = root->elements[i]->mbr;
-        if (root->elements[i]->container->parent == NULL)
+        if (root->elements[i]->container->parent == NULL)  // if root node
         {
             printf("Root Node Element: ");
-            // printf("%d %d %d %d\n", rect.bottomLeft.x, rect.topRight.y, rect.bottomLeft.x, rect.bottomLeft.y);
+
+            // printf("%d %d %d %d\n", rect.bottomLeft.x, rect.topRight.y, rect.bottomLeft.x,
+            // rect.bottomLeft.y);//testing
+
             printf("(%d, %d) -> (%d, %d)\n", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
         }
-        else if (root->elements[i]->container->is_leaf)
+        else if (root->elements[i]->container->is_leaf)  // if leaf node
         {
             printf("Leaf Node Element: ");
             if (rect.topRight.x == rect.bottomLeft.x && rect.topRight.y == rect.bottomLeft.y)
@@ -113,13 +116,17 @@ void traversal(Node *root)
                        rect.topRight.y);
             }
         }
-        else
+        else  // if internal node
         {
             printf("Internal Node Element: ");
-            // printf("%d %d %d %d\n", rect.topRight.x, rect.topRight.y, rect.bottomLeft.x, rect.bottomLeft.y);
+
+            // printf("%d %d %d %d\n", rect.topRight.x, rect.topRight.y, rect.bottomLeft.x, rect.bottomLeft.y);//testing
+
             printf("(%d, %d) -> (%d, %d)\n", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
         }
-        if (!root->is_leaf) traversal(root->elements[i]->child);
+        if (!root->is_leaf)
+            traversal(root->elements[i]->child);  // recursively traverse through the whole tree by calling
+                                                  //  it's child node.
     }
 }
 //--------------------------------------------------------------------------------------------------------------------------------------
