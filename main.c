@@ -87,6 +87,7 @@ Rtree *createRtree()  // No parameters required to create a rtree
 
 /* ----------------------------------------------PREORDER TRAVERSAL----------------------------------------------------
  */
+// defining preorder - first, list all the current node elements -> then, traverse all the children
 void traversal(Node *root, bool isInit)  // code for pre order traversal
 {
     if (root == NULL) return;  // simply returning if root is null
@@ -109,10 +110,6 @@ void traversal(Node *root, bool isInit)  // code for pre order traversal
         if (root->elements[i]->container->parent == NULL)  // if root node
         {
             printf("Root Node Element: ");
-
-            // printf("%d %d %d %d\n", rect.bottomLeft.x, rect.topRight.y, rect.bottomLeft.x,
-            // rect.bottomLeft.y);//testing
-
             printf("(%d, %d) -> (%d, %d)\n", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
         }
         else if (root->elements[i]->container->is_leaf)  // if leaf node
@@ -131,15 +128,14 @@ void traversal(Node *root, bool isInit)  // code for pre order traversal
         else  // if internal node
         {
             printf("Internal Node Element: ");
-
-            // printf("%d %d %d %d\n", rect.topRight.x, rect.topRight.y, rect.bottomLeft.x, rect.bottomLeft.y);//testing
-
             printf("(%d, %d) -> (%d, %d)\n", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
         }
+    }
+    for (int i = 0; i < root->count; i++)
+    {
         if (!root->is_leaf)
             traversal(root->elements[i]->child, false);  // recursively traverse through the whole tree by calling
-                                                         //  it's child node.
-    }
+    }                                                    //  it's child node.
 }
 //--------------------------------------------------------------------------------------------------------------------------------------
 

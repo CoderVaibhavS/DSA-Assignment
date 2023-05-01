@@ -22,9 +22,8 @@ struct point  // this struct basically represents any cartesian coordinate
 };
 
 // Assuming the coordinates to be integers
-struct rectangle  // this struct represents a rectangle
-{  // we have chosem topRight and bottomLeft points because these for the endpoints of a rectangle and are enough to
-   // define a rectangle
+struct rectangle   //this struct represents a rectangle
+{//we have chosen topRight and bottomLeft points because these for the endpoints of a rectangle and are enough to define a rectangle
     Point topRight;
     Point bottomLeft;
 };
