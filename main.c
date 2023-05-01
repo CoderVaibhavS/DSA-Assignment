@@ -101,41 +101,39 @@ void traversal(Node *root, bool isInit)  // code for pre order traversal
             mbr = createMBR(mbr, root->elements[i]->mbr);
 
         }  // or in otherwords creates the parent MBR structure from where are current root descended from
-        printf("Tree MBR: (%d, %d) -> (%d, %d)\n", mbr.bottomLeft.x, mbr.bottomLeft.y, mbr.topRight.x, mbr.topRight.y);
+        printf("Tree MBR: (%d, %d) -> (%d, %d)", mbr.bottomLeft.x, mbr.bottomLeft.y, mbr.topRight.x, mbr.topRight.y);
     }
+
+    if (root->is_leaf) printf("\nLeaf Node: ");
 
     for (int i = 0; i < root->count; i++)  // iterating through all elements of the root
     {
         Rect rect = root->elements[i]->mbr;
-        if (root->elements[i]->container->parent == NULL)  // if root node
+        if (root->is_leaf)  // if leaf node
         {
-            printf("Root Node Element: ");
-            printf("(%d, %d) -> (%d, %d)\n", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
-        }
-        else if (root->elements[i]->container->is_leaf)  // if leaf node
-        {
-            printf("Leaf Node Element: ");
             if (rect.topRight.x == rect.bottomLeft.x && rect.topRight.y == rect.bottomLeft.y)
             {
-                printf("%d %d\n", rect.topRight.x, rect.topRight.y);
+                printf("(%d, %d) ", rect.topRight.x, rect.topRight.y);
             }
             else
             {
-                printf("(%d, %d) -> (%d, %d)\n", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x,
-                       rect.topRight.y);
+                printf("(%d, %d) -> (%d, %d) ", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
             }
+        }
+        else if (root->parent == NULL)  // if root node
+        {
+            printf("\n\nRoot Node Element: ");
+            printf("(%d, %d) -> (%d, %d)", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
         }
         else  // if internal node
         {
-            printf("Internal Node Element: ");
-            printf("(%d, %d) -> (%d, %d)\n", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
+            printf("\nInternal Node Element: ");
+            printf("(%d, %d) -> (%d, %d)", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
         }
-    }
-    for (int i = 0; i < root->count; i++)
-    {
         if (!root->is_leaf)
             traversal(root->elements[i]->child, false);  // recursively traverse through the whole tree by calling
-    }                                                    //  it's child node.
+    }
+    if (isInit) printf("\n");
 }
 //--------------------------------------------------------------------------------------------------------------------------------------
 
