@@ -64,7 +64,7 @@ Node_ele *createNodeEle(Node *container, Point topRight,
                         Point bottomLeft);  // these various methods will be explained wherever they were defined
 Node *createNode(Node_ele *parent, bool isLeaf);
 Rtree *createRtree();
-void traversal(Node *root);
+void traversal(Node *root, bool isInit);
 
 int calculateAreaOfRectangle(Rect rec);
 Rect createMBR(Rect rect1, Rect rect2);

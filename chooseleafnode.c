@@ -40,9 +40,10 @@ Node_ele* chooseSubTree(Node* node,
             else if (areaE == areaEnlarge)  // handling the case incase the areas of enlargment being compared for
                                             // various rectangles comes out to be equal
             {
-                if (area < areaMin)  // as per the research paper we handle this case by simply alloting the rectangle
-                                     // which has the smaller area and the enlarged rectangle which encloses this and
-                                     // the new added rectangle to its appropriate variables
+                // as per the research paper we handle this case by simply alloting the rectangle
+                // which has the smaller area and the enlarged rectangle which encloses this and
+                // the new added rectangle to its appropriate variables
+                if (area < areaMin)
                 {
                     areaMin = area;  // alloting the areas to their respective variables as per the logic mentioned
                                      // above

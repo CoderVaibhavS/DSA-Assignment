@@ -87,9 +87,21 @@ Rtree *createRtree()  // No parameters required to create a rtree
 
 /* ----------------------------------------------PREORDER TRAVERSAL----------------------------------------------------
  */
-void traversal(Node *root)  // code for pre order traversal
+void traversal(Node *root, bool isInit)  // code for pre order traversal
 {
     if (root == NULL) return;  // simply returning if root is null
+    Rect mbr;
+    mbr = root->elements[0]->mbr;
+    // Calculate the parent's MBR by repeatedly checking max and min value of container of previous MBRs and current MBR
+    if (isInit)
+    {
+        for (int i = 1; i < root->count; i++)
+        {
+            mbr = createMBR(mbr, root->elements[i]->mbr);
+
+        }  // or in otherwords creates the parent MBR structure from where are current root descended from
+        printf("Tree MBR: (%d, %d) -> (%d, %d)\n", mbr.bottomLeft.x, mbr.bottomLeft.y, mbr.topRight.x, mbr.topRight.y);
+    }
 
     for (int i = 0; i < root->count; i++)  // iterating through all elements of the root
     {
@@ -125,8 +137,8 @@ void traversal(Node *root)  // code for pre order traversal
             printf("(%d, %d) -> (%d, %d)\n", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
         }
         if (!root->is_leaf)
-            traversal(root->elements[i]->child);  // recursively traverse through the whole tree by calling
-                                                  //  it's child node.
+            traversal(root->elements[i]->child, false);  // recursively traverse through the whole tree by calling
+                                                         //  it's child node.
     }
 }
 //--------------------------------------------------------------------------------------------------------------------------------------
@@ -144,6 +156,6 @@ int main()
         insert(tree, bottomLeft, topRight);
     }
     fclose(fp);
-    traversal(tree->root);
+    traversal(tree->root, true);
     return 0;
 }
