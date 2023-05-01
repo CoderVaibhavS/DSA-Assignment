@@ -95,7 +95,7 @@ void pickNext(Node *node, Node *node1, Node *node2)
         node1->elements[node1->count++] = node->elements[idx];
         node->elements[idx]->container = node1;
     }
-    else if (diff2 > diff1)
+    else if (diff1 > diff2)
     {
         node2->elements[node2->count++] = node->elements[idx];
         node->elements[idx]->container = node2;
