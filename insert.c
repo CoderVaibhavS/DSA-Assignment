@@ -1,21 +1,20 @@
 #include <stdio.h>
-
 #include "rtree.h"
 
 void insert(Rtree* tree, Point bottomLeft, Point topRight)
 {
     Rect mbr = {topRight, bottomLeft};
     Node* leaf = ChooseLeaf(tree, mbr);  // choose leaf based on elem
-    leaf->elements[leaf->count++] = createNodeEle(leaf, topRight, bottomLeft);
+    leaf->elements[leaf->count++] = createNodeEle(leaf, topRight, bottomLeft);      // create node_ele for element to be added
     SplitResult* split = NULL;
 
-    if (leaf->count > MAX_ENTRIES)
+    if (leaf->count > MAX_ENTRIES)      // node overflowed -> node requires splitting
     {
         split = nodeSplit(leaf);
     }
     else
     {
-        split = (SplitResult*)malloc(sizeof(SplitResult));
+        split = (SplitResult*) malloc(sizeof(SplitResult));
         split->parent = leaf->parent;
         split->leaf1 = leaf;
         split->leaf2 = leaf;
