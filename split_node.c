@@ -69,7 +69,7 @@ bool isPresent(Node_ele **ele, int size, Rect r)
 void pickNext(Node *node, Node *node1, Node *node2)
 {
     int max_diff = 0, diff, diff1, diff2, idx;
-    int d1, d2;
+    int d1, d2, area1, area2;
     for (int i = 0; i < node->count; i++)
     {
         if (!isPresent(node1->elements, node1->count, node->elements[i]->mbr) &&
@@ -80,6 +80,8 @@ void pickNext(Node *node, Node *node1, Node *node2)
             diff = abs(d1 - d2);
             if (max_diff <= diff)
             {
+                area1 = calculateAreaOfRectangle(node1->parent->mbr);
+                area2 = calculateAreaOfRectangle(node2->parent->mbr);
                 max_diff = diff;
                 diff1 = d1;
                 diff2 = d2;
@@ -93,10 +95,30 @@ void pickNext(Node *node, Node *node1, Node *node2)
         node1->elements[node1->count++] = node->elements[idx];
         node->elements[idx]->container = node1;
     }
-    else
+    else if (diff2 > diff1)
     {
         node2->elements[node2->count++] = node->elements[idx];
         node->elements[idx]->container = node2;
+    }
+    else if (area1 > area2)
+    {
+        node2->elements[node2->count++] = node->elements[idx];
+        node->elements[idx]->container = node2;
+    }
+    else if (area2 > area1)
+    {
+        node1->elements[node1->count++] = node->elements[idx];
+        node->elements[idx]->container = node1;
+    }
+    else if (node1->count > node2->count)
+    {
+        node2->elements[node2->count++] = node->elements[idx];
+        node->elements[idx]->container = node2;
+    }
+    else
+    {
+        node1->elements[node1->count++] = node->elements[idx];
+        node->elements[idx]->container = node1;
     }
 }
 
