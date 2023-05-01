@@ -69,8 +69,6 @@ Node* ChooseLeaf(Rtree* tree, Rect rectAdd)  // chooseleaf function which contai
         node = chooseSubTree(node, rectAdd)->child;  // this is to choose the appropriate sub-tree to descend down to as
                                                      // we iterate through the loop
     }
-    Rect mbr = node->parent->mbr;  // handling the other attributes present in struct node appropriately to avoid having
-                                   // those attributes point to some random values
 
     // printf("(%d, %d) -> (%d, %d)", mbr.bottomLeft.x, mbr.bottomLeft.y, mbr.topRight.x, mbr.topRight.y); //testing the
     // values
