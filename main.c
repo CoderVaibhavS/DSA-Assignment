@@ -130,3 +130,20 @@ void traversal(Node *root)  // code for pre order traversal
     }
 }
 //--------------------------------------------------------------------------------------------------------------------------------------
+
+int main()
+{
+    FILE *fp = fopen("data.txt", "r");
+    Rect mbr;
+    int x, y;
+    Rtree *tree = createRtree();
+    while (fscanf(fp, "%d %d\n", &x, &y) != EOF)
+    {
+        Point bottomLeft = {x, y};
+        Point topRight = {x, y};
+        insert(tree, bottomLeft, topRight);
+    }
+    fclose(fp);
+    traversal(tree->root);
+    return 0;
+}

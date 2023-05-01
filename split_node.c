@@ -53,15 +53,13 @@ void pickSeeds(Node *node, Node *node1, Node *node2)
     node2->count = 1;
 }
 
-bool isPresent(Node_ele **ele, int size, Rect r)
+bool isPresent(Node_ele **ele, int size, Node_ele *searchElem)
 {
     Rect mbr;
     for (int i = 0; i < size; i++)
     {
         mbr = ele[i]->mbr;
-        if (mbr.bottomLeft.x == r.bottomLeft.x && mbr.bottomLeft.y == r.bottomLeft.y &&
-            mbr.topRight.x == r.topRight.x && mbr.topRight.y == r.topRight.y)
-            return true;
+        if (ele[i] == searchElem) return true;
     }
     return false;
 }
@@ -69,23 +67,25 @@ bool isPresent(Node_ele **ele, int size, Rect r)
 void pickNext(Node *node, Node *node1, Node *node2)
 {
     int max_diff = 0, diff, diff1, diff2, idx;
-    int d1, d2, area1, area2;
+    int d1, d2;
+    int area1 = calculateAreaOfRectangle(node1->parent->mbr);
+    int area2 = calculateAreaOfRectangle(node2->parent->mbr);
+    bool setFlag = false;
     for (int i = 0; i < node->count; i++)
     {
-        if (!isPresent(node1->elements, node1->count, node->elements[i]->mbr) &&
-            !isPresent(node2->elements, node2->count, node->elements[i]->mbr))
+        if (!isPresent(node1->elements, node1->count, node->elements[i]) &&
+            !isPresent(node2->elements, node2->count, node->elements[i]))
         {
             d1 = calcAreaEnlargement(node1->parent->mbr, node->elements[i]->mbr);
             d2 = calcAreaEnlargement(node2->parent->mbr, node->elements[i]->mbr);
             diff = abs(d1 - d2);
-            if (max_diff <= diff)
+            if (setFlag == false || max_diff <= diff)
             {
-                area1 = calculateAreaOfRectangle(node1->parent->mbr);
-                area2 = calculateAreaOfRectangle(node2->parent->mbr);
                 max_diff = diff;
                 diff1 = d1;
                 diff2 = d2;
                 idx = i;
+                setFlag = true;
             }
         }
     }
@@ -139,8 +139,8 @@ SplitResult *nodeSplit(Node *node)
         {
             for (int i = 0; i < node->count; i++)
             {
-                if (!isPresent(node1->elements, node1->count, node->elements[i]->mbr) &&
-                    !isPresent(node2->elements, node2->count, node->elements[i]->mbr))
+                if (!isPresent(node1->elements, node1->count, node->elements[i]) &&
+                    !isPresent(node2->elements, node2->count, node->elements[i]))
                 {
                     node2->elements[node2->count++] = node->elements[i];
                     node->elements[i]->container = node2;
@@ -152,8 +152,8 @@ SplitResult *nodeSplit(Node *node)
         {
             for (int i = 0; i < node->count; i++)
             {
-                if (!isPresent(node1->elements, node1->count, node->elements[i]->mbr) &&
-                    !isPresent(node2->elements, node2->count, node->elements[i]->mbr))
+                if (!isPresent(node1->elements, node1->count, node->elements[i]) &&
+                    !isPresent(node2->elements, node2->count, node->elements[i]))
                 {
                     node1->elements[node1->count++] = node->elements[i];
                     node->elements[i]->container = node1;
