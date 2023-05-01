@@ -4,10 +4,10 @@
 
 #include "rtree.h"
 
-// node1 and 2 are the splitted nodes, after splitting free(node)
+// node1 and 2 are the splitted nodes, choose first elements to be inserted in both of them
 void pickSeeds(Node *node, Node *node1, Node *node2)
 {
-    int max_area, area, area1, area2;  // distance b/w points
+    int max_area, area, area1, area2;
     int elem1, elem2;
     Rect rect, rect1, rect2;
     rect1 = node->elements[0]->mbr;
@@ -22,6 +22,7 @@ void pickSeeds(Node *node, Node *node1, Node *node2)
     elem1 = 0;
     elem2 = 1;
 
+    // traverse every possible pair of node elements
     for (int i = 0; i < node->count; i++)
     {
         for (int j = i + 1; j < node->count; j++)
@@ -29,22 +30,22 @@ void pickSeeds(Node *node, Node *node1, Node *node2)
             rect1 = node->elements[i]->mbr;
             rect2 = node->elements[j]->mbr;
 
-            rect = createMBR(rect1, rect2);
+            rect = createMBR(rect1, rect2);     // MBR bounding 2 rects
 
             area = calculateAreaOfRectangle(rect);
             area1 = calculateAreaOfRectangle(rect1);
             area2 = calculateAreaOfRectangle(rect2);
 
+            // calculating the most wasteful area -> insert both rectangles in separate nodes
             if (max_area < area - area1 - area2)
-            {  // we are selecting the 2 rectangles which have the maximum area
-                // inbetween them when we bound those two rectangles with a
-                // bigger rectangle
+            {
                 max_area = area - area1 - area2;
                 elem1 = i;
                 elem2 = j;
             }
         }
     }
+
     node1->elements[0] = node->elements[elem1];
     node2->elements[0] = node->elements[elem2];
     node->elements[elem1]->container = node1;
@@ -53,6 +54,7 @@ void pickSeeds(Node *node, Node *node1, Node *node2)
     node2->count = 1;
 }
 
+// identify the presence of a rectangle in a node
 bool isPresent(Node_ele **ele, int size, Node_ele *searchElem)
 {
     Rect mbr;
@@ -64,6 +66,7 @@ bool isPresent(Node_ele **ele, int size, Node_ele *searchElem)
     return false;
 }
 
+// choose the node where a rect can be inserted after picking initial seeds
 void pickNext(Node *node, Node *node1, Node *node2)
 {
     int max_diff = 0, diff, diff1, diff2, idx;
@@ -71,14 +74,17 @@ void pickNext(Node *node, Node *node1, Node *node2)
     int area1 = calculateAreaOfRectangle(node1->parent->mbr);
     int area2 = calculateAreaOfRectangle(node2->parent->mbr);
     bool setFlag = false;
+
     for (int i = 0; i < node->count; i++)
     {
-        if (!isPresent(node1->elements, node1->count, node->elements[i]) &&
-            !isPresent(node2->elements, node2->count, node->elements[i]))
+        if (!isPresent(node1->elements, node1->count, node->elements[i]) && !isPresent(node2->elements, node2->count, node->elements[i]))
         {
+            // calculate enlargements in both nodes MBR for each rectangle that is not alloted to a node
             d1 = calcAreaEnlargement(node1->parent->mbr, node->elements[i]->mbr);
             d2 = calcAreaEnlargement(node2->parent->mbr, node->elements[i]->mbr);
             diff = abs(d1 - d2);
+
+            // prioritise the rectangle with max diff in enlargements
             if (setFlag == false || max_diff <= diff)
             {
                 max_diff = diff;
@@ -90,17 +96,18 @@ void pickNext(Node *node, Node *node1, Node *node2)
         }
     }
 
-    if (diff1 < diff2)
+    if (diff1 < diff2)      // allot to node1
     {
         node1->elements[node1->count++] = node->elements[idx];
         node->elements[idx]->container = node1;
     }
-    else if (diff1 > diff2)
+    else if (diff1 > diff2)     // allot to node2
     {
         node2->elements[node2->count++] = node->elements[idx];
         node->elements[idx]->container = node2;
     }
-    else if (area1 > area2)
+    // if diff is same, allot to node with the MBR having smaller area
+    else if (area1 > area2) 
     {
         node2->elements[node2->count++] = node->elements[idx];
         node->elements[idx]->container = node2;
@@ -110,6 +117,7 @@ void pickNext(Node *node, Node *node1, Node *node2)
         node1->elements[node1->count++] = node->elements[idx];
         node->elements[idx]->container = node1;
     }
+    // if area is also same, then allot to the node with less no of elements
     else if (node1->count > node2->count)
     {
         node2->elements[node2->count++] = node->elements[idx];
@@ -122,9 +130,10 @@ void pickNext(Node *node, Node *node1, Node *node2)
     }
 }
 
+// main split function
 SplitResult *nodeSplit(Node *node)
 {
-    // UPDATE THE NODE PARENTS
+    // two splitted nodes
     Node *node1 = createNode(NULL, node->is_leaf);
     Node *node2 = createNode(NULL, node->is_leaf);
 
@@ -134,21 +143,19 @@ SplitResult *nodeSplit(Node *node)
     {
         createNodeParent(node1);
         createNodeParent(node2);
-        // node2 is underflowed
-        if (MAX_ENTRIES + 1 - node1->count == MIN_ENTRIES)
+
+        if (MAX_ENTRIES + 1 - node1->count == MIN_ENTRIES)      // node2 is underflowed
         {
             for (int i = 0; i < node->count; i++)
             {
-                if (!isPresent(node1->elements, node1->count, node->elements[i]) &&
-                    !isPresent(node2->elements, node2->count, node->elements[i]))
+                if (!isPresent(node1->elements, node1->count, node->elements[i]) && !isPresent(node2->elements, node2->count, node->elements[i]))
                 {
                     node2->elements[node2->count++] = node->elements[i];
                     node->elements[i]->container = node2;
                 }
             }
         }
-        // node1 is underflowed
-        else if (MAX_ENTRIES + 1 - node2->count == MIN_ENTRIES)
+        else if (MAX_ENTRIES + 1 - node2->count == MIN_ENTRIES)     // node1 is underflowed
         {
             for (int i = 0; i < node->count; i++)
             {
@@ -165,11 +172,14 @@ SplitResult *nodeSplit(Node *node)
             pickNext(node, node1, node2);
         }
     }
+
     Node_ele *parent = node->parent;
     free(node);
+
     SplitResult *split = (SplitResult *)malloc(sizeof(SplitResult));
     split->parent = parent;
     split->leaf1 = node1;
     split->leaf2 = node2;
+    
     return split;
 }

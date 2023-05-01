@@ -1,5 +1,5 @@
 #ifndef RTREE_H
-//------------------------------------------------------------------------------------------------------------------------
+/* ------------------------------------------------------------------------------------------------------------------------ */
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -15,74 +15,74 @@ typedef struct rectangle Rect;
 typedef struct node_ele Node_ele;
 typedef struct splitResult SplitResult;
 
-struct point  // this struct basically represents any cartesian coordinate
+// Assuming the coordinates to be integers
+// This struct represents the cartesian coordinates of a point
+struct point
 {
     int x;
     int y;
 };
 
-// Assuming the coordinates to be integers
-struct rectangle   //this struct represents a rectangle
-{//we have chosen topRight and bottomLeft points because these for the endpoints of a rectangle and are enough to define a rectangle
+// A rectangle has two corner points - TopLeft & BottomRight (Assuming the sides to be parallel to x and y axes)
+struct rectangle 
+{
     Point topRight;
     Point bottomLeft;
 };
 
-struct node_ele  // this is the struct which contains the MBR
+// Element of a node that has an MBR and child node
+struct node_ele
 {
     Rect mbr;
-    Node *child;      // this represents the node that contains and encloses the children MBR
-    Node *container;  // this represents the node which encapsulates our current MBR while containing many other MBRs
+    Node *child;
+    Node *container;  // node which encapsulates the current MBR
 };
 
-struct node  // this is the container which contains node_ele
+// Node contains multiple node elements
+struct node
 {
-    bool is_leaf;         // to check if the node is leaf or non-leaf
+    bool is_leaf;         // leaf or non-leaf
     int count;            // no of node_ele present
     Node_ele **elements;  // array of node_ele present within node
-    Node_ele *parent;  // this basically represents the parent of the node which is node_ele or in other words the child
-                       // in node_ele will point to this node
+    Node_ele *parent;   // parent element of node
 };
 
-struct rtree  // structure which represents the r tree and contains the starting root node
+// Tree structure having root node
+struct rtree
 {
     Node *root;
 };
 
-struct splitResult  // this is a temporary strct that we will use to help us with splitting of a node during insertion
-                    // in the case of overflow
+// Temporary struct used to help with node splitting to propagate data up the tree
+struct splitResult 
 {
-    Node_ele *parent;  // we are keeping track of the parent of the node which is basically node_ele and parent->child
-                       // will be the current node that we are splitting
-    Node *leaf1;       // leaf1 and leaf2 are the two nodes the initial node is splitting into
+    Node_ele *parent;  // parent of the node before splitting
+    Node *leaf1;       // leaf1 and leaf2 are the two splitted nodes
     Node *leaf2;
 };
 
-/* DECLARE ALL THE FUNCTION DEFINITIONS HERE */
-Node_ele *createNodeEle(Node *container, Point topRight,
-                        Point bottomLeft);  // these various methods will be explained wherever they were defined
+/* -----------------------------------------------FUNCTION DEFINITIONS--------------------------------------------------- */
+Node_ele *createNodeEle(Node *container, Point topRight, Point bottomLeft);
 Node *createNode(Node_ele *parent, bool isLeaf);
 Rtree *createRtree();
+
 void traversal(Node *root, bool isInit);
 
 int calculateAreaOfRectangle(Rect rec);
 Rect createMBR(Rect rect1, Rect rect2);
 int calcAreaEnlargement(Rect rectCont, Rect rectChild);
-void createNodeParent(Node *node);
+
 Node_ele *chooseSubTree(Node *n, Rect r);
 Node *ChooseLeaf(Rtree *r, Rect r1);
-void updateParent(Node_ele *n, Node *n1, Node *n2);
-SplitResult *nodeSplit(Node *node);
-SplitResult *adjustTree(SplitResult *split);
-bool isPresent(Node_ele **e1, int s, Node_ele *e2);
-// int LeafCheck(Node *n);
-// Node *descendTree(Node *n);
-// Rect CalculateRecatangleMBR(Node *n);
-// int CalculateOverlapArea(Rect rect1, Rect rect2);
-// Node *ChooseLeaf(Node *n);
 
 void pickSeeds(Node *node, Node *node1, Node *node2);
 void pickNext(Node *node, Node *node1, Node *node2);
+SplitResult *nodeSplit(Node *node);
+
+void createNodeParent(Node *node);
+void updateParent(Node_ele *n, Node *n1, Node *n2);
+SplitResult *adjustTree(SplitResult *split);
+bool isPresent(Node_ele **e1, int s, Node_ele *e2);
 
 bool is_overlap(Rect r, Rect mbr);
 void search(Node *search_node, Rect search_rect);

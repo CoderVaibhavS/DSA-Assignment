@@ -7,7 +7,7 @@
 #define MAX_ENTRIES 4
 #define MIN_ENTRIES 2
 
-/* -----------------------------------------------STRUCTURE------------------------------------------------------------*/
+/* -----------------------------------------------STRUCTURE----------------------------------------------------------- */
 typedef struct rtree Rtree;
 typedef struct node Node;
 typedef struct point Point;
@@ -47,54 +47,49 @@ typedef struct node_ele Node_ele;
 //     Node *root;
 // };
 //
-/* --------------------------------------------------GENERATING
- * FUNCTIONS---------------------------------------------------- */
-
-Node_ele *createNodeEle(Node *container, Point topRight, Point bottomLeft)  // function to create a node_ele
+/* --------------------------------------------------GENERATING FUNCTIONS---------------------------------------------------- */
+// create node element
+Node_ele *createNodeEle(Node *container, Point topRight, Point bottomLeft)
 {
-    Node_ele *node_ele = (Node_ele *)malloc(sizeof(Node_ele));  // dynamically allocating memory
-    node_ele->container = container;                            // initializing all the parameters with
-    node_ele->child = NULL;                                     // appropriate values
+    Node_ele *node_ele = (Node_ele *) malloc(sizeof(Node_ele));
+    node_ele->container = container;                            
+    node_ele->child = NULL;
     node_ele->mbr.bottomLeft = bottomLeft;
     node_ele->mbr.topRight = topRight;
 
     return node_ele;
 }
 
-// Creating Node function
-
+// create node
 Node *createNode(Node_ele *parent, bool isLeaf)
 {
-    Node *node = (Node *)malloc(sizeof(Node));  // creating a node dynamically
+    Node *node = (Node *) malloc(sizeof(Node));
+    node->is_leaf = isLeaf;
+    node->count = 0;
+    node->elements = (Node_ele **) malloc((MAX_ENTRIES + 1) * sizeof(Node_ele *));
+    node->parent = parent;
 
-    node->is_leaf = isLeaf;  // initializing all the fields of the struct node.
-    node->count = 0;         // initial count=0
-    node->elements = (Node_ele **)malloc((MAX_ENTRIES + 1) * sizeof(Node_ele *));
-    node->parent = parent;  // initializing parent
-    // node->parent->container->is_leaf = false;
-
-    return node;  // returning the node
+    return node; 
 }
 
-// creating R Tree function
-Rtree *createRtree()  // No parameters required to create a rtree
+// create tree
+Rtree *createRtree()
 {
-    Rtree *rtree = (Rtree *)malloc(sizeof(Rtree));  // Creating r tree dynamically
-    rtree->root = createNode(NULL, true);           // Only node is the root itself,hence it's a leaf node.
+    Rtree *rtree = (Rtree *) malloc(sizeof(Rtree));
+    rtree->root = createNode(NULL, true);   // parent of root initialised to NULL
 
-    return rtree;  // returning the tree
+    return rtree;
 }
 
-/* ----------------------------------------------PREORDER TRAVERSAL----------------------------------------------------
- */
-// defining preorder - first, list all the current node elements -> then, traverse all the children
-void traversal(Node *root, bool isInit)  // code for pre order traversal
+/* ----------------------------------------------PREORDER TRAVERSAL---------------------------------------------------- */
+// defining preorder - first, list all the current node elements -> then, traverse all the children in the same manner
+void traversal(Node *root, bool isInit)
 {
-    if (root == NULL) return;  // simply returning if root is null
+    if (root == NULL) return;
     Rect mbr;
     mbr = root->elements[0]->mbr;
     // Calculate the parent's MBR by repeatedly checking max and min value of container of previous MBRs and current MBR
-    if (isInit)
+    if (isInit)     // only for 1st level
     {
         for (int i = 1; i < root->count; i++)
         {
@@ -104,15 +99,11 @@ void traversal(Node *root, bool isInit)  // code for pre order traversal
         printf("Tree MBR: (%d, %d) -> (%d, %d)\n", mbr.bottomLeft.x, mbr.bottomLeft.y, mbr.topRight.x, mbr.topRight.y);
     }
 
-    for (int i = 0; i < root->count; i++)  // iterating through all elements of the root
+    for (int i = 0; i < root->count; i++)  // printing all elements of the root
     {
         Rect rect = root->elements[i]->mbr;
-        if (root->elements[i]->container->parent == NULL)  // if root node
-        {
-            printf("Root Node Element: ");
-            printf("(%d, %d) -> (%d, %d)\n", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
-        }
-        else if (root->elements[i]->container->is_leaf)  // if leaf node
+
+        if (root->elements[i]->container->is_leaf)  // leaf node
         {
             printf("Leaf Node Element: ");
             if (rect.topRight.x == rect.bottomLeft.x && rect.topRight.y == rect.bottomLeft.y)
@@ -125,19 +116,28 @@ void traversal(Node *root, bool isInit)  // code for pre order traversal
                        rect.topRight.y);
             }
         }
-        else  // if internal node
+        else if (root->elements[i]->container->parent == NULL)  // root node
+        {
+            printf("Root Node Element: ");
+            printf("(%d, %d) -> (%d, %d)\n", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
+        }
+
+        else  // internal node
         {
             printf("Internal Node Element: ");
             printf("(%d, %d) -> (%d, %d)\n", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
         }
     }
+
+    // traverse through all the children of current node
     for (int i = 0; i < root->count; i++)
     {
         if (!root->is_leaf)
-            traversal(root->elements[i]->child, false);  // recursively traverse through the whole tree by calling
-    }                                                    //  it's child node.
+            traversal(root->elements[i]->child, false);
+    }
 }
-//--------------------------------------------------------------------------------------------------------------------------------------
+
+/* ----------------------------------------------------------MAIN FUNCTION--------------------------------------------------------- */
 
 int main()
 {
@@ -145,13 +145,17 @@ int main()
     Rect mbr;
     int x, y;
     Rtree *tree = createRtree();
+
+    // insert all the points
     while (fscanf(fp, "%d %d\n", &x, &y) != EOF)
     {
         Point bottomLeft = {x, y};
         Point topRight = {x, y};
         insert(tree, bottomLeft, topRight);
     }
+
     fclose(fp);
     traversal(tree->root, true);
+
     return 0;
 }
