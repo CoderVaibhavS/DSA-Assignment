@@ -141,7 +141,7 @@ SplitResult *nodeSplit(Node *node)
 
     while (node1->count + node2->count < node->count)
     {
-        createNodeParent(node1);
+        czreateNodeParent(node1);
         createNodeParent(node2);
 
         if (MAX_ENTRIES + 1 - node1->count == MIN_ENTRIES)      // node2 is underflowed

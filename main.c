@@ -7,7 +7,8 @@
 #define MAX_ENTRIES 4
 #define MIN_ENTRIES 2
 
-/* -----------------------------------------------STRUCTURE----------------------------------------------------------- */
+/* -----------------------------------------------STRUCTURE-----------------------------------------------------------
+ */
 typedef struct rtree Rtree;
 typedef struct node Node;
 typedef struct point Point;
@@ -47,41 +48,38 @@ typedef struct node_ele Node_ele;
 //     Node *root;
 // };
 //
-/* --------------------------------------------------GENERATING FUNCTIONS---------------------------------------------------- */
+/* --------------------------------------------------GENERATING
+ * FUNCTIONS---------------------------------------------------- */
 // create node element
 Node_ele *createNodeEle(Node *container, Point topRight, Point bottomLeft)
 {
-    Node_ele *node_ele = (Node_ele *) malloc(sizeof(Node_ele));
-    node_ele->container = container;                            
+    Node_ele *node_ele = (Node_ele *)malloc(sizeof(Node_ele));  // create node_ele dynamically
+    node_ele->container = container;                            // initializing all the structure parameters of node_ele
     node_ele->child = NULL;
     node_ele->mbr.bottomLeft = bottomLeft;
     node_ele->mbr.topRight = topRight;
-
-    return node_ele;
+    return node_ele;  // returning the node_ele
 }
-
 // create node
 Node *createNode(Node_ele *parent, bool isLeaf)
 {
-    Node *node = (Node *) malloc(sizeof(Node));
-    node->is_leaf = isLeaf;
+    Node *node = (Node *)malloc(sizeof(Node));  // creating node dynamically
+    node->is_leaf = isLeaf;                     // initializing the structure parameters of node
     node->count = 0;
-    node->elements = (Node_ele **) malloc((MAX_ENTRIES + 1) * sizeof(Node_ele *));
+    node->elements = (Node_ele **)malloc((MAX_ENTRIES + 1) * sizeof(Node_ele *));
     node->parent = parent;
-
-    return node; 
+    return node;  // returning the node
 }
-
 // create tree
 Rtree *createRtree()
 {
-    Rtree *rtree = (Rtree *) malloc(sizeof(Rtree));
-    rtree->root = createNode(NULL, true);   // parent of root initialised to NULL
-
-    return rtree;
+    Rtree *rtree = (Rtree *)malloc(sizeof(Rtree));  // creating the tree dynamically
+    rtree->root = createNode(NULL, true);           // parent of root initialised to NULL
+    return rtree;                                   // returning the tree
 }
 
-/* ----------------------------------------------PREORDER TRAVERSAL---------------------------------------------------- */
+/* ----------------------------------------------PREORDER TRAVERSAL----------------------------------------------------
+ */
 // defining preorder - first, list all the current node elements -> then, traverse all the children in the same manner
 void traversal(Node *root, bool isInit)
 {
@@ -89,7 +87,7 @@ void traversal(Node *root, bool isInit)
     Rect mbr;
     mbr = root->elements[0]->mbr;
     // Calculate the parent's MBR by repeatedly checking max and min value of container of previous MBRs and current MBR
-    if (isInit)     // only for 1st level
+    if (isInit)  // only for 1st level
     {
         for (int i = 1; i < root->count; i++)
         {
@@ -130,12 +128,12 @@ void traversal(Node *root, bool isInit)
     // traverse through all the children of current node
     for (int i = 0; i < root->count; i++)
     {
-        if (!root->is_leaf)
-            traversal(root->elements[i]->child, false);
+        if (!root->is_leaf) traversal(root->elements[i]->child, false);
     }
 }
 
-/* ----------------------------------------------------------MAIN FUNCTION--------------------------------------------------------- */
+/* ----------------------------------------------------------MAIN
+ * FUNCTION--------------------------------------------------------- */
 
 int main()
 {
