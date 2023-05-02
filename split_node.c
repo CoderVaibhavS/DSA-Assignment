@@ -143,8 +143,8 @@ void pickNext(Node *node, Node *node1, Node *node2)
 SplitResult *nodeSplit(Node *node)
 {
     // two splitted nodes
-    Node *node1 = createNode(NULL, node->is_leaf);
-    Node *node2 = createNode(NULL, node->is_leaf);
+    Node *node1 = createNode(NULL, node->isLeaf);
+    Node *node2 = createNode(NULL, node->isLeaf);
 
     pickSeeds(node, node1, node2);
 

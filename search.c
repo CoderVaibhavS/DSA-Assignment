@@ -20,7 +20,7 @@ void search(Node *searchNode, Rect searchRect)
     {
         if (searchNode->elements[i] != NULL && isOverlap(searchRect, searchNode->elements[i]->mbr))
         {
-            if (searchNode->is_leaf)  // overlapped MBR is part of a leaf node (datapoint)
+            if (searchNode->isLeaf)  // overlapped MBR is part of a leaf node (datapoint)
             {
                 if (searchNode->elements[i]->mbr.topRight.x == searchNode->elements[i]->mbr.bottomLeft.x &&
                     searchNode->elements[i]->mbr.topRight.y == searchNode->elements[i]->mbr.bottomLeft.y)
@@ -33,7 +33,7 @@ void search(Node *searchNode, Rect searchRect)
             }
 
             // Descend into tree if node is not leaf
-            if (searchNode->elements[i]->child != NULL && searchNode->is_leaf == false)
+            if (searchNode->elements[i]->child != NULL && searchNode->isLeaf == false)
                 search(searchNode->elements[i]->child, searchRect);
         }
     }
