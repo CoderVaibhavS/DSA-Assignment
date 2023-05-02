@@ -20,18 +20,18 @@ typedef struct nodeEle NodeEle;
 // create node element
 NodeEle *createNodeEle(Node *container, Point topRight, Point bottomLeft)
 {
-    NodeEle *node_ele = (NodeEle *)malloc(sizeof(NodeEle));
-    node_ele->container = container;
-    node_ele->child = NULL;
-    node_ele->mbr.bottomLeft = bottomLeft;
-    node_ele->mbr.topRight = topRight;
-    return node_ele;
+    NodeEle *nodeEle = (NodeEle *)malloc(sizeof(NodeEle));
+    nodeEle->container = container;
+    nodeEle->child = NULL;
+    nodeEle->mbr.bottomLeft = bottomLeft;
+    nodeEle->mbr.topRight = topRight;
+    return nodeEle;
 }
 // create node
 Node *createNode(NodeEle *parent, bool isLeaf)
 {
     Node *node = (Node *)malloc(sizeof(Node));
-    node->is_leaf = isLeaf;
+    node->isLeaf = isLeaf;
     node->count = 0;
     // MAX_ENTRIES + 1 to ensure space for 5th elements right before splitting
     node->elements = (NodeEle **)malloc((MAX_ENTRIES + 1) * sizeof(NodeEle *));
@@ -64,7 +64,7 @@ void traversal(Node *root, bool isInit)
         printf("Tree MBR: (%d, %d) -> (%d, %d)", mbr.bottomLeft.x, mbr.bottomLeft.y, mbr.topRight.x, mbr.topRight.y);
     }
 
-    if (root->is_leaf)
+    if (root->isLeaf)
         printf("\nLeaf Node: ");
     else if (root->parent == NULL)
         printf("\nRoot Node: ");
@@ -76,7 +76,7 @@ void traversal(Node *root, bool isInit)
     {
         Rect rect = root->elements[i]->mbr;
         // Leaf node condition
-        if (root->is_leaf)
+        if (root->isLeaf)
         {
             if (rect.topRight.x == rect.bottomLeft.x && rect.topRight.y == rect.bottomLeft.y)
             {
@@ -103,7 +103,7 @@ void traversal(Node *root, bool isInit)
     // traverse through all the children of current node
     for (int i = 0; i < root->count; i++)
     {
-        if (!root->is_leaf) traversal(root->elements[i]->child, false);
+        if (!root->isLeaf) traversal(root->elements[i]->child, false);
     }
     if (isInit) printf("\n");
 }

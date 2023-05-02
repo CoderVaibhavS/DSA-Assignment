@@ -42,7 +42,7 @@ struct nodeEle
 // Node contains multiple node elements
 struct node
 {
-    bool is_leaf;        // leaf or non-leaf
+    bool isLeaf;         // leaf or non-leaf
     int count;           // no of node_ele present
     NodeEle **elements;  // array of node_ele present within node
     NodeEle *parent;     // parent element of node
@@ -58,7 +58,8 @@ struct rtree
 struct splitResult
 {
     NodeEle *parent;  // parent of the node before splitting
-    Node *leaf1;      // leaf1 and leaf2 are the two splitted nodes
+    // leaf1 and leaf2 are the two splits of node
+    Node *leaf1;
     Node *leaf2;
 };
 
@@ -86,7 +87,7 @@ bool isPresent(NodeEle **e1, int s, NodeEle *e2);
 SplitResult *adjustTree(SplitResult *split);
 
 bool isOverlap(Rect r, Rect mbr);
-void search(Node *search_node, Rect search_rect);
+void search(Node *searchNode, Rect searchRect);
 
 void insert(Rtree *r, Point p1, Point p2);
 #endif

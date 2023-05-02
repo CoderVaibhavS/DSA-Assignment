@@ -49,7 +49,7 @@ NodeEle* chooseSubTree(Node* node, Rect rectAdd)
 Node* ChooseLeaf(Rtree* tree, Rect rectAdd)
 {
     Node* node = tree->root;
-    while (!node->is_leaf)  // running loop until leaf is reached
+    while (!node->isLeaf)  // running loop until leaf is reached
     {
         node = chooseSubTree(node, rectAdd)->child;  // descends down to the leaf node
     }

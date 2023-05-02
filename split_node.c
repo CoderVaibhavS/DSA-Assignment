@@ -9,7 +9,7 @@
 
 void pickSeeds(Node *node, Node *node1, Node *node2)
 {
-    int max_area, area, area1, area2;
+    int maxArea, area, area1, area2;
     int elem1, elem2;
     Rect rect, rect1, rect2;
     rect1 = node->elements[0]->mbr;  // MBR of 1st node_ele and 2nd node_ele are considered first
@@ -20,7 +20,7 @@ void pickSeeds(Node *node, Node *node1, Node *node2)
     area = calculateAreaOfRectangle(rect);  // calculating the area of rect,rect1 and rect2
     area1 = calculateAreaOfRectangle(rect1);
     area2 = calculateAreaOfRectangle(rect2);
-    max_area = area - area1 - area2;
+    maxArea = area - area1 - area2;
     elem1 = 0;
     elem2 = 1;
 
@@ -39,12 +39,12 @@ void pickSeeds(Node *node, Node *node1, Node *node2)
             area2 = calculateAreaOfRectangle(rect2);
 
             // calculating the most wasteful area -> insert both rectangles in separate nodes
-            if (max_area < area - area1 - area2)
+            if (maxArea < area - area1 - area2)
             {
                 // maximizing area-area1-area2 to basically get the farthest two objects
                 // to consider while picking the seeds into two different nodes
 
-                max_area = area - area1 - area2;
+                maxArea = area - area1 - area2;
                 elem1 = i;  // storing the values of elem1 ad elem2
                 elem2 = j;
             }
@@ -74,7 +74,7 @@ bool isPresent(NodeEle **ele, int size, NodeEle *searchElem)
 // choose the node where a rect can be inserted after picking initial seeds
 void pickNext(Node *node, Node *node1, Node *node2)
 {
-    int max_diff = 0, diff, diff1, diff2, idx;  // defining and initializing variables
+    int maxDiff = 0, diff, diff1, diff2, idx;  // defining and initializing variables
     int d1, d2;
     int area1 = calculateAreaOfRectangle(node1->parent->mbr);
     int area2 = calculateAreaOfRectangle(node2->parent->mbr);
@@ -93,9 +93,9 @@ void pickNext(Node *node, Node *node1, Node *node2)
             diff = abs(d1 - d2);
 
             // prioritise the rectangle with max diff in enlargements
-            if (setFlag == false || max_diff <= diff)
+            if (setFlag == false || maxDiff <= diff)
             {
-                max_diff = diff;
+                maxDiff = diff;
                 diff1 = d1;
                 diff2 = d2;
                 idx = i;
@@ -143,8 +143,8 @@ void pickNext(Node *node, Node *node1, Node *node2)
 SplitResult *nodeSplit(Node *node)
 {
     // two splitted nodes
-    Node *node1 = createNode(NULL, node->is_leaf);
-    Node *node2 = createNode(NULL, node->is_leaf);
+    Node *node1 = createNode(NULL, node->isLeaf);
+    Node *node2 = createNode(NULL, node->isLeaf);
 
     pickSeeds(node, node1, node2);
 
