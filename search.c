@@ -2,7 +2,7 @@
 
 #include "rtree.h"
 
-bool is_overlap(Rect r, Rect mbr)  // checks for an overlap between the
+bool isOverlap(Rect r, Rect mbr)  // checks for an overlap between the
                                    // rectangle and the MBR in a node
 {
     if (r.bottomLeft.x <= mbr.topRight.x && r.bottomLeft.y <= mbr.topRight.y && r.topRight.x >= mbr.bottomLeft.x &&
@@ -21,8 +21,8 @@ void search(Node *search_node,
     for (int i = 0; i < search_node->count; i++)  // iterates over the MBRs present in the passed node
     {
         if (&search_node->elements[i] != NULL &&
-            is_overlap(search_rect,
-                       search_node->elements[i]->mbr))  // checks for an overlap through
+            isOverlap(search_rect,
+                      search_node->elements[i]->mbr))  // checks for an overlap through
                                                         // the is_overlap function
         {
             if (search_node->parent == NULL)  // overlapped MBR is from a root node

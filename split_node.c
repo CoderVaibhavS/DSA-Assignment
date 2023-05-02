@@ -60,7 +60,7 @@ void pickSeeds(Node *node, Node *node1, Node *node2)
 }
 
 // identify the presence of a rectangle in a node
-bool isPresent(Node_ele **ele, int size, Node_ele *searchElem)
+bool isPresent(NodeEle **ele, int size, NodeEle *searchElem)
 {
     Rect mbr;
     for (int i = 0; i < size; i++)
@@ -78,7 +78,7 @@ void pickNext(Node *node, Node *node1, Node *node2)
     int d1, d2;
     int area1 = calculateAreaOfRectangle(node1->parent->mbr);
     int area2 = calculateAreaOfRectangle(node2->parent->mbr);
-    bool setFlag = false;
+    bool setFlag = false;  // Ensure that final variables are set for atleast one node
 
     for (int i = 0; i < node->count; i++)
     {
@@ -104,12 +104,13 @@ void pickNext(Node *node, Node *node1, Node *node2)
         }
     }
 
-    if (diff1 < diff2)  // allot to node1
+    // allot to node with smaller diff
+    if (diff1 < diff2)
     {
         node1->elements[node1->count++] = node->elements[idx];
         node->elements[idx]->container = node1;
     }
-    else if (diff1 > diff2)  // allot to node2
+    else if (diff1 > diff2)
     {
         node2->elements[node2->count++] = node->elements[idx];
         node->elements[idx]->container = node2;
@@ -152,7 +153,8 @@ SplitResult *nodeSplit(Node *node)
         createNodeParent(node1);
         createNodeParent(node2);
 
-        if (MAX_ENTRIES + 1 - node1->count == MIN_ENTRIES)  // node2 is underflowed
+        // node2 is underflowed
+        if (MAX_ENTRIES + 1 - node1->count == MIN_ENTRIES)
         {
             for (int i = 0; i < node->count; i++)
             {
@@ -164,7 +166,8 @@ SplitResult *nodeSplit(Node *node)
                 }
             }
         }
-        else if (MAX_ENTRIES + 1 - node2->count == MIN_ENTRIES)  // node1 is underflowed
+        // node1 is underflowed
+        else if (MAX_ENTRIES + 1 - node2->count == MIN_ENTRIES)
         {
             for (int i = 0; i < node->count; i++)
             {
@@ -182,7 +185,7 @@ SplitResult *nodeSplit(Node *node)
         }
     }
 
-    Node_ele *parent = node->parent;
+    NodeEle *parent = node->parent;
     free(node);
 
     SplitResult *split = (SplitResult *)malloc(sizeof(SplitResult));

@@ -8,7 +8,6 @@
 Rect createMBR(Rect rect1, Rect rect2)
 {
     Rect rect;
-    // find the bottomleft and topright of MBR
     rect.topRight.x = fmax(rect1.topRight.x, rect2.topRight.x);
     rect.topRight.y = fmax(rect1.topRight.y, rect2.topRight.y);
     rect.bottomLeft.x = fmin(rect1.bottomLeft.x, rect2.bottomLeft.x);
@@ -28,16 +27,15 @@ int calculateAreaOfRectangle(Rect rect)
 // enlargement area for a rectangle to accomodate another rectangle
 int calcAreaEnlargement(Rect rectCont, Rect rectChild)
 {
-    Rect enlargedRect = createMBR(rectCont, rectChild);  // new enlarged rectangle created
-
+    Rect enlargedRect = createMBR(rectCont, rectChild);
     return calculateAreaOfRectangle(enlargedRect) - calculateAreaOfRectangle(rectCont);
 }
 
-// Create a parent Node_ele(MBR) for node.
+// Create a parent Node_ele (MBR) for node.
 void createNodeParent(Node *node)
 {
     Rect mbr;
-    Node_ele *oldParent = node->parent;
+    NodeEle *oldParent = node->parent;
     mbr = node->elements[0]->mbr;
 
     // Calculate the parent's MBR by repeatedly checking max and min value of container of previous MBRs and current MBR
@@ -45,7 +43,7 @@ void createNodeParent(Node *node)
     {
         mbr = createMBR(mbr, node->elements[i]->mbr);
     }
-    Node_ele *parent = createNodeEle(NULL, mbr.topRight, mbr.bottomLeft);
+    NodeEle *parent = createNodeEle(NULL, mbr.topRight, mbr.bottomLeft);
 
     node->parent = parent;
     parent->child = node;
@@ -57,8 +55,8 @@ void createNodeParent(Node *node)
     }
 }
 
-// Update `node1` and `node2` parent MBRs in container of `parent` MBR
-void updateParent(Node_ele *parent, Node *node1, Node *node2)
+// Update node1 and node2 parent MBRs in container of parent MBR
+void updateParent(NodeEle *parent, Node *node1, Node *node2)
 {
     Node *parentNode = parent->container;
     int ele;
@@ -76,11 +74,12 @@ void updateParent(Node_ele *parent, Node *node1, Node *node2)
     parentNode->elements[ele] = node1->parent;
     node1->parent->container = parentNode;
 
+    // If node did not split
     if (node1 != node2)
     {
         parentNode->elements[parentNode->count++] = node2->parent;
         node2->parent->container = parentNode;
+        // createNodeParent already frees parent in case of no split
+        free(parent);
     }
-
-    if (node1 != node2) free(parent);
 }
