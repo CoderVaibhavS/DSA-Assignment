@@ -2,6 +2,7 @@
 #include "rtree.h"
 
 /* ----------------------------------------ADJUST TREE--------------------------------------------- */
+
 SplitResult *adjustTree(SplitResult *split)
 {
     SplitResult *splitOp = split;

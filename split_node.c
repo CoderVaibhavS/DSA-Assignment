@@ -5,17 +5,19 @@
 #include "rtree.h"
 
 // node1 and 2 are the splitted nodes, choose first elements to be inserted in both of them
+// using pickseed function
+
 void pickSeeds(Node *node, Node *node1, Node *node2)
 {
     int max_area, area, area1, area2;
     int elem1, elem2;
     Rect rect, rect1, rect2;
-    rect1 = node->elements[0]->mbr;
+    rect1 = node->elements[0]->mbr;  // MBR of 1st node_ele and 2nd node_ele are considered first
     rect2 = node->elements[1]->mbr;
 
-    rect = createMBR(rect1, rect2);
+    rect = createMBR(rect1, rect2);  // MBR of the above two considered rect1 and rect2
 
-    area = calculateAreaOfRectangle(rect);
+    area = calculateAreaOfRectangle(rect);  // calculating the area of rect,rect1 and rect2
     area1 = calculateAreaOfRectangle(rect1);
     area2 = calculateAreaOfRectangle(rect2);
     max_area = area - area1 - area2;
@@ -30,7 +32,7 @@ void pickSeeds(Node *node, Node *node1, Node *node2)
             rect1 = node->elements[i]->mbr;
             rect2 = node->elements[j]->mbr;
 
-            rect = createMBR(rect1, rect2);     // MBR bounding 2 rects
+            rect = createMBR(rect1, rect2);  // MBR bounding 2 rects
 
             area = calculateAreaOfRectangle(rect);
             area1 = calculateAreaOfRectangle(rect1);
@@ -39,18 +41,21 @@ void pickSeeds(Node *node, Node *node1, Node *node2)
             // calculating the most wasteful area -> insert both rectangles in separate nodes
             if (max_area < area - area1 - area2)
             {
+                // maximizing area-area1-area2 to basically get the farthest two objects
+                // to consider while picking the seeds into two different nodes
+
                 max_area = area - area1 - area2;
-                elem1 = i;
+                elem1 = i;  // storing the values of elem1 ad elem2
                 elem2 = j;
             }
         }
     }
 
-    node1->elements[0] = node->elements[elem1];
-    node2->elements[0] = node->elements[elem2];
-    node->elements[elem1]->container = node1;
+    node1->elements[0] = node->elements[elem1];  // assigning the elements of node1 and node2
+    node2->elements[0] = node->elements[elem2];  // using the previously found values of elem1 and elem2
+    node->elements[elem1]->container = node1;    // now these new node_ele are assigned their container nodes.
     node->elements[elem2]->container = node2;
-    node1->count = 1;
+    node1->count = 1;  // increasing count of the nodes by 1
     node2->count = 1;
 }
 
@@ -69,7 +74,7 @@ bool isPresent(Node_ele **ele, int size, Node_ele *searchElem)
 // choose the node where a rect can be inserted after picking initial seeds
 void pickNext(Node *node, Node *node1, Node *node2)
 {
-    int max_diff = 0, diff, diff1, diff2, idx;
+    int max_diff = 0, diff, diff1, diff2, idx;  // defining and initializing variables
     int d1, d2;
     int area1 = calculateAreaOfRectangle(node1->parent->mbr);
     int area2 = calculateAreaOfRectangle(node2->parent->mbr);
@@ -77,7 +82,10 @@ void pickNext(Node *node, Node *node1, Node *node2)
 
     for (int i = 0; i < node->count; i++)
     {
-        if (!isPresent(node1->elements, node1->count, node->elements[i]) && !isPresent(node2->elements, node2->count, node->elements[i]))
+        // checking if elements in the node are already present or not using the isPresent function
+
+        if (!isPresent(node1->elements, node1->count, node->elements[i]) &&
+            !isPresent(node2->elements, node2->count, node->elements[i]))
         {
             // calculate enlargements in both nodes MBR for each rectangle that is not alloted to a node
             d1 = calcAreaEnlargement(node1->parent->mbr, node->elements[i]->mbr);
@@ -96,18 +104,18 @@ void pickNext(Node *node, Node *node1, Node *node2)
         }
     }
 
-    if (diff1 < diff2)      // allot to node1
+    if (diff1 < diff2)  // allot to node1
     {
         node1->elements[node1->count++] = node->elements[idx];
         node->elements[idx]->container = node1;
     }
-    else if (diff1 > diff2)     // allot to node2
+    else if (diff1 > diff2)  // allot to node2
     {
         node2->elements[node2->count++] = node->elements[idx];
         node->elements[idx]->container = node2;
     }
     // if diff is same, allot to node with the MBR having smaller area
-    else if (area1 > area2) 
+    else if (area1 > area2)
     {
         node2->elements[node2->count++] = node->elements[idx];
         node->elements[idx]->container = node2;
@@ -141,21 +149,22 @@ SplitResult *nodeSplit(Node *node)
 
     while (node1->count + node2->count < node->count)
     {
-        czreateNodeParent(node1);
+        createNodeParent(node1);
         createNodeParent(node2);
 
-        if (MAX_ENTRIES + 1 - node1->count == MIN_ENTRIES)      // node2 is underflowed
+        if (MAX_ENTRIES + 1 - node1->count == MIN_ENTRIES)  // node2 is underflowed
         {
             for (int i = 0; i < node->count; i++)
             {
-                if (!isPresent(node1->elements, node1->count, node->elements[i]) && !isPresent(node2->elements, node2->count, node->elements[i]))
+                if (!isPresent(node1->elements, node1->count, node->elements[i]) &&
+                    !isPresent(node2->elements, node2->count, node->elements[i]))
                 {
                     node2->elements[node2->count++] = node->elements[i];
                     node->elements[i]->container = node2;
                 }
             }
         }
-        else if (MAX_ENTRIES + 1 - node2->count == MIN_ENTRIES)     // node1 is underflowed
+        else if (MAX_ENTRIES + 1 - node2->count == MIN_ENTRIES)  // node1 is underflowed
         {
             for (int i = 0; i < node->count; i++)
             {
@@ -180,6 +189,6 @@ SplitResult *nodeSplit(Node *node)
     split->parent = parent;
     split->leaf1 = node1;
     split->leaf2 = node2;
-    
+
     return split;
 }

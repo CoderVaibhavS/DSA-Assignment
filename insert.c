@@ -19,7 +19,6 @@ void insert(Rtree* tree, Point bottomLeft, Point topRight)
         split->leaf1 = leaf;
         split->leaf2 = leaf;
     }
-
     split = adjustTree(split);
     if (split->leaf1 != split->leaf2)
     {
