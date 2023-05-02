@@ -16,6 +16,7 @@ typedef struct nodeEle NodeEle;
 typedef struct splitResult SplitResult;
 
 // Assuming the coordinates to be integers
+
 // This struct represents the cartesian coordinates of a point
 struct point
 {
@@ -42,8 +43,8 @@ struct nodeEle
 struct node
 {
     bool isLeaf;         // leaf or non-leaf
-    int count;           // no of node_ele present
-    NodeEle **elements;  // array of node_ele present within node
+    int count;           // no of node elements present
+    NodeEle **elements;  // array of node elements present within node
     NodeEle *parent;     // parent element of node
 };
 
@@ -386,9 +387,8 @@ void pickSeeds(Node *node, Node *node1, Node *node2)
             // calculating the most wasteful area -> insert both rectangles in separate nodes
             if (maxArea < area - area1 - area2)
             {
-                // maximizing area-area1-area2 to basically get the farthest two objects
+                // maximizing area-area1-area2 to get the farthest two objects
                 // to consider while picking the seeds into two different nodes
-
                 maxArea = area - area1 - area2;
                 elem1 = i;  // storing the values of elem1 ad elem2
                 elem2 = j;
