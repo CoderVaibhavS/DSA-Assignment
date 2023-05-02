@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
+
 #include "rtree.h"
 
 // create an MBR for two rectangles
@@ -43,10 +44,9 @@ void createNodeParent(Node *node)
     for (int i = 1; i < node->count; i++)
     {
         mbr = createMBR(mbr, node->elements[i]->mbr);
-
     }
     Node_ele *parent = createNodeEle(NULL, mbr.topRight, mbr.bottomLeft);
-    
+
     node->parent = parent;
     parent->child = node;
     parent->mbr = mbr;
@@ -72,15 +72,15 @@ void updateParent(Node_ele *parent, Node *node1, Node *node2)
             break;
         }
     }
-    
+
     parentNode->elements[ele] = node1->parent;
     node1->parent->container = parentNode;
-    
-    if (node1 != node2)     // when there's no splitting
+
+    if (node1 != node2)
     {
-        parentNode->elements[parentNode->count++] = node2->parent; 
+        parentNode->elements[parentNode->count++] = node2->parent;
         node2->parent->container = parentNode;
     }
-    
+
     if (node1 != node2) free(parent);
 }
