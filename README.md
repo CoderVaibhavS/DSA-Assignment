@@ -2,11 +2,11 @@
 
 This is the code for a R Tree. Here, we are using 2D rectangles which are horizontal and vertical.
 Made By:
-Vaibhav Singla (2021A7PS2227P)
-Sanjeev Mallick (2021A7PS2217P)
-Jay Goyal (2021A7PS2418P)
-Pranav Deepak Tanna (2021A7PS2685P)
-Nek Manchanda (2021A7PS0576P)
+Vaibhav Singla (2021A7PS2227P)<br />
+Sanjeev Mallick (2021A7PS2217P)<br />
+Jay Goyal (2021A7PS2418P)<br />
+Pranav Deepak Tanna (2021A7PS2685P)<br />
+Nek Manchanda (2021A7PS0576P)<br />
 
 ### Running the Code
 
