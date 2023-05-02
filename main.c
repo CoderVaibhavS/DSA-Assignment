@@ -128,5 +128,14 @@ int main()
     fclose(fp);
     traversal(tree->root, true);
 
+    printf("-----------------------------------------\n");
+
+    Rect searchRect;
+    searchRect.bottomLeft.x = 1;
+    searchRect.bottomLeft.y = 8;
+    searchRect.topRight.x = 12;
+    searchRect.topRight.y = 20;
+    search(tree->root, searchRect);
+
     return 0;
 }
