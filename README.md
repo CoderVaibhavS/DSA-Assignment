@@ -20,7 +20,7 @@ Nek Manchanda (2021A7PS0576P)<br />
 For running the project, run the following the code directory:
 
 ```shell
-gcc -lm main.c -o exec && ./exec
+gcc main.c -lm -o exec && ./exec
 ```
 
 <br />
