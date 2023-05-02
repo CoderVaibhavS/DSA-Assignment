@@ -661,7 +661,7 @@ int main()
     traversal(tree->root, true);
 
     printf("-----------------------------------------\n");
-//This way we can call the search function
+    //This way we can call the search function
     // Rect searchRect;
     // searchRect.bottomLeft.x = 1;
     // searchRect.bottomLeft.y = 8;
