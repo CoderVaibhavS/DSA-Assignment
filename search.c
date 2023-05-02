@@ -1,6 +1,5 @@
 #include <math.h>
 #include <stdlib.h>
-
 #include "rtree.h"
 
 // checks for an overlap between the rectangle and the MBR in a node
