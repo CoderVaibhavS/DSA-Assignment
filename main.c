@@ -97,7 +97,12 @@ void traversal(Node *root, bool isInit)
         printf("Tree MBR: (%d, %d) -> (%d, %d)", mbr.bottomLeft.x, mbr.bottomLeft.y, mbr.topRight.x, mbr.topRight.y);
     }
 
-    if (root->is_leaf) printf("\nLeaf Node: ");
+    if (root->is_leaf)
+        printf("\nLeaf Node: ");
+    else if (root->parent == NULL)
+        printf("\nRoot Node: ");
+    else
+        printf("\nInternal Node: ");
 
     for (int i = 0; i < root->count; i++)  // iterating through all elements of the root
     {
@@ -106,23 +111,22 @@ void traversal(Node *root, bool isInit)
         {
             if (rect.topRight.x == rect.bottomLeft.x && rect.topRight.y == rect.bottomLeft.y)
             {
-                printf("(%d, %d) ", rect.topRight.x, rect.topRight.y);
+                printf("(%d, %d)", rect.topRight.x, rect.topRight.y);
             }
             else
             {
-                printf("(%d, %d) -> (%d, %d) ", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
+                printf("(%d, %d) -> (%d, %d)", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
             }
         }
         else if (root->parent == NULL)  // if root node
         {
-            printf("\n\nRoot Node Element: ");
             printf("(%d, %d) -> (%d, %d)", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
         }
         else  // if internal node
         {
-            printf("\nInternal Node Element: ");
             printf("(%d, %d) -> (%d, %d)", rect.bottomLeft.x, rect.bottomLeft.y, rect.topRight.x, rect.topRight.y);
         }
+        if (i < root->count - 1) printf(", ");
     }
 
     // traverse through all the children of current node
@@ -130,6 +134,7 @@ void traversal(Node *root, bool isInit)
     {
         if (!root->is_leaf) traversal(root->elements[i]->child, false);
     }
+    if (isInit) printf("\n");
 }
 
 /* -----------------MAIN FUNCTION--------------------------------------------------------- */
