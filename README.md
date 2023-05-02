@@ -20,10 +20,14 @@ Nek Manchanda (2021A7PS0576P)<br />
 For running the project, run the following the code directory:
 
 ```shell
-gcc main.c -lm -o exec && ./exec
+gcc DSA_assignment_group_36.c -lm -o exec && ./exec
 ```
 
 <br />
 <br />
 <sub><sup><i>The <code>submission</code> branch contains the files that have been submitted. The files used in development are present on the <code>main</code> branch.
 Both branches contain the exact same code. This was done to ease development.</i></sup></sub>
+<br />
+<br />
+
+[GitHub Link](https://github.com/CoderVaibhavS/DSA-Assignment.git)
